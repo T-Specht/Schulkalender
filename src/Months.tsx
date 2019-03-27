@@ -56,7 +56,7 @@ const Months: React.SFC = () => {
       <Button icon onClick={context.update} basic>
         <Icon name="refresh" />
       </Button>
-      <Link to="/edit">Edit</Link>
+      <Link to="/edit">Einstellungen</Link>
       <div className="months">{months}</div>
     </React.Fragment>
   );
