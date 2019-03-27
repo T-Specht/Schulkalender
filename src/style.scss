@@ -1,0 +1,88 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+div.title, h2 {
+  font-weight: bold;
+  font-size: 1.5em;
+
+}
+
+#edit-view {
+  width: 99%;
+  max-width: 750px;
+  margin: 10px auto;
+}
+
+.calendar-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0px;
+
+  .color {
+    $size: 30px;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .info {
+    .url {
+      color: grey;
+      font-family: monospace;
+    }
+
+    flex: 1;
+  }
+}
+
+.months {
+  display: flex;
+  justify-content: stretch;
+  width: 100%;
+  line-height: 8px;
+  font-weight: 100;
+
+  .month {
+    margin: 10px;
+    flex: 1;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+
+    tr.day {
+      td {
+        padding: 5px 0px;
+        border-bottom: 1px solid rgba(black, 0.1);
+        vertical-align: top;
+        width: auto;
+      }
+
+      .events {
+        font-size: 7px;
+        .event {
+          padding: 3px;
+          margin: 2px;
+          border-radius: 3px;
+        }
+      }
+
+      &.weekend {
+        background: rgba(#ff002b, 0.2);
+      }
+
+      td.date {
+        font-weight: bold;
+        margin-right: 5px;
+        padding: 5px;
+        width: 20px;
+      }
+    }
+  }
+}
