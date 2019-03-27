@@ -8,7 +8,7 @@ import { AppContextProvider } from "./AppContext";
 
 render(
   <AppContextProvider>
-    <BrowserRouter>
+    <BrowserRouter basename={window.location.pathname}>
       <App />
     </BrowserRouter>
   </AppContextProvider>,
