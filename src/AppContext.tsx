@@ -120,7 +120,13 @@ export const AppContextProvider: React.SFC = ({ children }) => {
   }
   function removeCalendarGroup(i: number) {
     const copy = [...calendarGroups];
+    const group = copy[i];
     copy.splice(i, 1);
+
+    const calendarsCopy = calendars.filter(c => c.groupUUID != group.uuid);
+
+    setCalendars(JSON.parse(JSON.stringify(calendarsCopy)));
+    setCalendarGroups(copy);
   }
   function moveCalendarGroupUp(i: number) {
     const copy = [...calendarGroups];

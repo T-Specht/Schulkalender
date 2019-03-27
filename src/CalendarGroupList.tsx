@@ -14,7 +14,11 @@ const CalendarGroupList: React.SFC = () => {
             <div className="url">{context.calendars.filter(cal => cal.groupUUID == c.uuid).length} Kalender in Gruppe</div>
           </div>
           <div className="actions">
-            <Button icon onClick={() => context.removeCalendarGroup(i)}>
+            <Button icon onClick={() => {
+              if(confirm("Sind Sie sich sicher, dass Sie diese Gruppe und alle zugehörigen Kalender löschen möchten?")){
+                context.removeCalendarGroup(i);
+              }
+            }}>
               <Icon name="trash" />
             </Button>
             <Button icon onClick={() => context.moveCalendarGroupUp(i)}>
