@@ -72,6 +72,7 @@ export const AppContextProvider: React.SFC = ({ children }) => {
       JSON.stringify(calendars.map(c => ({ ...c, data: null })))
     );
     localStorage.setItem(LOCAL_GROUPS, JSON.stringify(calendarGroups));
+    localStorage.setItem(LOCAL + '_API', apiKey);
   }
 
   function getCalFromURL(url: string) {
@@ -140,7 +141,7 @@ export const AppContextProvider: React.SFC = ({ children }) => {
   // Save calendars to LocalStorage on change.
   React.useEffect(() => {
     saveToStorage();
-  }, [calendars, calendarGroups]);
+  }, [calendars, calendarGroups, apiKey]);
 
   return (
     <AppContext.Provider
