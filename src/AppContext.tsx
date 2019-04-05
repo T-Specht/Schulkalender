@@ -25,6 +25,8 @@ interface ContextType {
   moveCalendarGroupUp: (i: number) => void;
   apiKey: string;
   setApiKey: (key: string) => void;
+  updateInterval: number;
+  setUpdateInterval: (minutes: number) => void;
 }
 
 interface CalendarGroup {
@@ -59,12 +61,17 @@ export const AppContextProvider: React.SFC = ({ children }) => {
     const key = localStorage.getItem(LOCAL + '_API');
     return key ? key : '';
   });
+  const [updateInterval, setUpdateInterval] = useState(() => {
+    const key = localStorage.getItem(LOCAL + '_UPDATE_INTERVAL');
+    return key ? parseInt(key) : 60;
+  });
   const [calendarGroups, setCalendarGroups] = useState<CalendarGroup[]>(
     localStorage.getItem(LOCAL_GROUPS)
       ? JSON.parse(localStorage.getItem(LOCAL_GROUPS)!)
       : []
   );
   const [isLoading, setIsLoading] = useState(false);
+  
 
   function saveToStorage() {
     localStorage.setItem(
@@ -73,6 +80,7 @@ export const AppContextProvider: React.SFC = ({ children }) => {
     );
     localStorage.setItem(LOCAL_GROUPS, JSON.stringify(calendarGroups));
     localStorage.setItem(LOCAL + '_API', apiKey);
+    localStorage.setItem(LOCAL + '_UPDATE_INTERVAL', updateInterval.toString());
   }
 
   function getCalFromURL(url: string) {
@@ -141,12 +149,14 @@ export const AppContextProvider: React.SFC = ({ children }) => {
   // Save calendars to LocalStorage on change.
   React.useEffect(() => {
     saveToStorage();
-  }, [calendars, calendarGroups, apiKey]);
+  }, [calendars, calendarGroups, apiKey, updateInterval]);
 
   return (
     <AppContext.Provider
       value={{
         calendarGroups,
+        updateInterval,
+        setUpdateInterval,
         apiKey,
         setApiKey,
         calendars,

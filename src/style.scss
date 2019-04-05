@@ -49,6 +49,10 @@ div.title, h2 {
     margin: 10px;
     flex: 1;
 
+    .date-span-head{
+      width: 3em;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -81,7 +85,6 @@ div.title, h2 {
         font-weight: bold;
         margin-right: 5px;
         padding: 5px;
-        width: 20px;
       }
     }
   }

@@ -44,9 +44,24 @@ const Months: React.SFC = () => {
     };
   }, []);
 
+  // Fetch Data upon load
+  useEffect(() => {
+
+    // Fetch Data on First Load
+    context.update();
+    console.log(new Date().toLocaleTimeString() + ": Initial fetch of data...");
+
+    // Update data every x ms
+    let interval = setInterval(() => {
+      context.update();
+      console.log(new Date().toLocaleTimeString() + ": Updating Calendar...");
+    }, context.updateInterval * 1000 * 60);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <React.Fragment>
-      <Input
+      {/* <Input
         type="range"
         max={12}
         min={1}
@@ -55,9 +70,16 @@ const Months: React.SFC = () => {
       />
       <Button icon onClick={context.update} basic>
         <Icon name="refresh" />
-      </Button>
-      <Link to="/edit">Einstellungen</Link>
+      </Button> */}
       <div className="months">{months}</div>
+      <div
+        style={{
+          textAlign: "right",
+          padding: 10
+        }}
+      >
+        <Link to="/edit">Einstellungen</Link>
+      </div>
     </React.Fragment>
   );
 };

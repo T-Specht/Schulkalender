@@ -10,6 +10,7 @@ import { AppContext } from "./AppContext";
 const EditCalendars: React.SFC = () => {
   const context = useContext(AppContext);
   const [apiKey, setApiKey] = useState(context.apiKey);
+  const [updateInterval, setUpdateInterval] = useState(context.updateInterval);
   return (
     <div id="edit-view">
       <div>
@@ -21,6 +22,12 @@ const EditCalendars: React.SFC = () => {
       <div>
         <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)}></Input>
         <Button onClick={() => context.setApiKey(apiKey)}>Speichern</Button>
+      </div>
+      <h2>Update Intervall</h2>
+      <div>(in Minuten)</div>
+      <div>
+        <Input value={updateInterval} type="number" onChange={(e) => setUpdateInterval(parseInt(e.target.value))}></Input>
+        <Button onClick={() => context.setUpdateInterval(updateInterval)}>Speichern</Button>
       </div>
       <h2>Kalender Gruppe hinzufügen</h2>
       <AddCalendarGroupForm />
