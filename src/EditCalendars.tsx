@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import AddCalendarForm from "./AddCalendarForm";
 import AddCalendarGroupForm from "./AddCalendarGroupForm";
 import CalendarList from "./CalendarList";
@@ -11,6 +11,7 @@ const EditCalendars: React.SFC = () => {
   const context = useContext(AppContext);
   const [apiKey, setApiKey] = useState(context.apiKey);
   const [updateInterval, setUpdateInterval] = useState(context.updateInterval);
+  const [textLength, setTextLength] = useState(context.textLength);
   return (
     <div id="edit-view">
       <div>
@@ -20,14 +21,32 @@ const EditCalendars: React.SFC = () => {
       </div>
       <h2>API Schlüssel</h2>
       <div>
-        <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)}></Input>
+        <Input value={apiKey} onChange={e => setApiKey(e.target.value)} />
         <Button onClick={() => context.setApiKey(apiKey)}>Speichern</Button>
       </div>
       <h2>Update Intervall</h2>
       <div>(in Minuten)</div>
       <div>
-        <Input value={updateInterval} type="number" onChange={(e) => setUpdateInterval(parseInt(e.target.value))}></Input>
-        <Button onClick={() => context.setUpdateInterval(updateInterval)}>Speichern</Button>
+        <Input
+          value={updateInterval}
+          type="number"
+          onChange={e => setUpdateInterval(parseInt(e.target.value))}
+        />
+        <Button onClick={() => context.setUpdateInterval(updateInterval)}>
+          Speichern
+        </Button>
+      </div>
+
+      <h2>Maximale Anzahl an Zeichen für Eintrag</h2>
+      <div>
+        <Input
+          value={textLength}
+          type="number"
+          onChange={e => setTextLength(parseInt(e.target.value))}
+        />
+        <Button onClick={() => context.setTextLength(textLength)}>
+          Speichern
+        </Button>
       </div>
       <h2>Kalender Gruppe hinzufügen</h2>
       <AddCalendarGroupForm />

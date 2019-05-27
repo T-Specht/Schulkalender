@@ -9,9 +9,9 @@ interface IDayProps {
   cals: (ICalendar & { events: Item[] })[];
 }
 
-function shorten(text: string) {
+function shorten(text: string, maxLength: number) {
   if (!text) return;
-  return text.substring(0, 40);
+  return text.substring(0, maxLength);
 }
 
 export const Day: React.SFC<IDayProps> = ({ date, cals }) => {
@@ -26,7 +26,7 @@ export const Day: React.SFC<IDayProps> = ({ date, cals }) => {
       })}
     >
       <td className="date">{date.date()}</td>
-      {context.calendarGroups.map((g, i) => {
+      {context.calendarGroups.filter(g => g.active).map((g, i) => {
         return (
           <td
             key={i}
@@ -49,7 +49,7 @@ export const Day: React.SFC<IDayProps> = ({ date, cals }) => {
                         }}
                         onClick={() => console.log(e)}
                       >
-                        {shorten(e.summary)}
+                        {shorten(e.summary, context.textLength)}
                       </div>
                     );
                   });

@@ -20,14 +20,15 @@ const AddCalendarGroupForm: React.SFC = () => {
   const context = useContext(AppContext);
 
   const handleClick = () => {
-    if(name.value.trim() == ''){
-        return alert('Bitte fülle zuerst alle Felder aus!');
+    if (name.value.trim() == "") {
+      return alert("Bitte fülle zuerst alle Felder aus!");
     }
     context.addCalendarGroup({
       name: name.value,
       color: _color,
       uuid: uuid(),
-      whiteText: color(_color).isDark()
+      whiteText: color(_color).isDark(),
+      active: true
     });
   };
 
@@ -35,13 +36,17 @@ const AddCalendarGroupForm: React.SFC = () => {
     <div id="add-calendar">
       <Input type="text" placeholder="Name" {...name} label="Name" fluid />
       <br />
-      <div style={{
-          margin: '20px auto'
-      }}>
+      <div
+        style={{
+          margin: "20px auto"
+        }}
+      >
         <h2>Farbe auswählen</h2>
         <CirclePicker color={_color} onChangeComplete={e => setColor(e.hex)} />
       </div>
-      <Button onClick={handleClick}>Kalender Gruppe {name.value} hinzufügen</Button>
+      <Button onClick={handleClick}>
+        Kalender Gruppe {name.value} hinzufügen
+      </Button>
     </div>
   );
 };

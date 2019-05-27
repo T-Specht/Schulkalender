@@ -9,6 +9,14 @@ div.title, h2 {
 
 }
 
+#toolbar{
+  text-align: right;
+
+  > *{
+    margin:2px;
+  }
+}
+
 #edit-view {
   width: 99%;
   max-width: 750px;

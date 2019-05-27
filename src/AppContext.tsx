@@ -27,6 +27,9 @@ interface ContextType {
   setApiKey: (key: string) => void;
   updateInterval: number;
   setUpdateInterval: (minutes: number) => void;
+  setCalendarGroupActiveStatus: (uuid: string, active: boolean) => void;
+  textLength: number,
+  setTextLength: (value: number) => any;
 }
 
 interface CalendarGroup {
@@ -34,12 +37,39 @@ interface CalendarGroup {
   color: string;
   uuid: string;
   whiteText: boolean;
+  active: boolean;
 }
 
 export const AppContext = React.createContext<ContextType>({} as any);
 
 const LOCAL = "CALENDARS";
 const LOCAL_GROUPS = LOCAL + "-GROUPS";
+
+export function usePersistentState<T>(
+  initialValue: T,
+  key: string,
+  session = false,
+  saveFunction?: (value: T) => string,
+  getFunction?: (raw: string) => T
+) {
+  const storage = session ? sessionStorage : localStorage;
+
+  const localKey = `${LOCAL}${key.toUpperCase()}`;
+  let [value, setValue] = useState(() => {
+    let localItem = storage.getItem(localKey);
+    const getFunc: (raw: string) => T = getFunction ? getFunction : JSON.parse;
+    return localItem != null ? getFunc(localItem) : initialValue;
+  });
+
+  useEffect(() => {
+    storage.setItem(
+      localKey,
+      saveFunction ? saveFunction(value) : JSON.stringify(value)
+    );
+  }, [value]);
+
+  return [value, setValue] as [T, React.Dispatch<React.SetStateAction<T>>];
+}
 
 const cURL = (c: string, apiKey: string) =>
   `https://www.googleapis.com/calendar/v3/calendars/${c}/events?key=${apiKey}&timeMin=${moment(
@@ -54,34 +84,31 @@ const cURL = (c: string, apiKey: string) =>
     .format()}`;
 
 export const AppContextProvider: React.SFC = ({ children }) => {
-  const [calendars, setCalendars] = useState<ICalendar[]>(
-    localStorage.getItem(LOCAL) ? JSON.parse(localStorage.getItem(LOCAL)!) : []
+  const [calendars, setCalendars] = usePersistentState<ICalendar[]>(
+    [],
+    "",
+    false,
+    calendars => JSON.stringify(calendars.map(c => ({ ...c, data: null })))
   );
-  const [apiKey, setApiKey] = useState(() => {
-    const key = localStorage.getItem(LOCAL + '_API');
-    return key ? key : '';
-  });
-  const [updateInterval, setUpdateInterval] = useState(() => {
-    const key = localStorage.getItem(LOCAL + '_UPDATE_INTERVAL');
-    return key ? parseInt(key) : 60;
-  });
-  const [calendarGroups, setCalendarGroups] = useState<CalendarGroup[]>(
-    localStorage.getItem(LOCAL_GROUPS)
-      ? JSON.parse(localStorage.getItem(LOCAL_GROUPS)!)
-      : []
+  const [apiKey, setApiKey] = usePersistentState(
+    "",
+    "_API",
+    false,
+    raw => raw,
+    raw => raw
   );
+  const [updateInterval, setUpdateInterval] = usePersistentState(
+    60,
+    "_UPDATE_INTERVAL"
+  );
+  const [textLength, setTextLength] = usePersistentState(
+    1000,
+    "_TEXT_LENGTH"
+  );
+  const [calendarGroups, setCalendarGroups] = usePersistentState<
+    CalendarGroup[]
+  >([], "-GROUPS");
   const [isLoading, setIsLoading] = useState(false);
-  
-
-  function saveToStorage() {
-    localStorage.setItem(
-      LOCAL,
-      JSON.stringify(calendars.map(c => ({ ...c, data: null })))
-    );
-    localStorage.setItem(LOCAL_GROUPS, JSON.stringify(calendarGroups));
-    localStorage.setItem(LOCAL + '_API', apiKey);
-    localStorage.setItem(LOCAL + '_UPDATE_INTERVAL', updateInterval.toString());
-  }
 
   function getCalFromURL(url: string) {
     return axios.get<CalendarAPIResult>(cURL(url, apiKey));
@@ -137,6 +164,13 @@ export const AppContextProvider: React.SFC = ({ children }) => {
     setCalendars(JSON.parse(JSON.stringify(calendarsCopy)));
     setCalendarGroups(copy);
   }
+
+  function setCalendarGroupActiveStatus(uuid: string, active: boolean) {
+    const copy = [...calendarGroups];
+    copy.find(c => c.uuid == uuid)!.active = active;
+    setCalendarGroups(copy);
+  }
+
   function moveCalendarGroupUp(i: number) {
     const copy = [...calendarGroups];
     if (i > 0) {
@@ -145,11 +179,6 @@ export const AppContextProvider: React.SFC = ({ children }) => {
       setCalendarGroups(copy);
     }
   }
-
-  // Save calendars to LocalStorage on change.
-  React.useEffect(() => {
-    saveToStorage();
-  }, [calendars, calendarGroups, apiKey, updateInterval]);
 
   return (
     <AppContext.Provider
@@ -167,7 +196,10 @@ export const AppContextProvider: React.SFC = ({ children }) => {
         moveUp,
         addCalendarGroup,
         removeCalendarGroup,
-        moveCalendarGroupUp
+        moveCalendarGroupUp,
+        setCalendarGroupActiveStatus,
+        textLength,
+        setTextLength
       }}
     >
       {children}

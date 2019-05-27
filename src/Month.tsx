@@ -52,7 +52,7 @@ const Month: React.SFC<Props> = props => {
         <thead>
           <tr>
             <td className="date-span-head" />
-            {context.calendarGroups.map(c => (
+            {context.calendarGroups.filter(g => g.active).map(c => (
               <td key={c.name}>{c.name}</td>
             ))}
           </tr>
