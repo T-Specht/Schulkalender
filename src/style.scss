@@ -3,17 +3,17 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
-div.title, h2 {
+div.title,
+h2 {
   font-weight: bold;
   font-size: 1.5em;
-
 }
 
-#toolbar{
+#toolbar {
   text-align: right;
 
-  > *{
-    margin:2px;
+  > * {
+    margin: 2px;
   }
 }
 
@@ -46,6 +46,21 @@ div.title, h2 {
   }
 }
 
+.color-dot {
+  $size: 30px;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.more-info{
+  font-size: 0.8em;
+  color: gray;
+}
+
 .months {
   display: flex;
   justify-content: stretch;
@@ -57,7 +72,7 @@ div.title, h2 {
     margin: 10px;
     flex: 1;
 
-    .date-span-head{
+    .date-span-head {
       width: 3em;
     }
 
@@ -70,7 +85,7 @@ div.title, h2 {
 
     tr.day {
       td {
-        padding: 5px 0px;
+        //padding: 5px 0px;
         border-bottom: 1px solid rgba(black, 0.1);
         vertical-align: top;
         width: auto;
@@ -80,8 +95,9 @@ div.title, h2 {
         font-size: 7px;
         .event {
           padding: 3px;
-          margin: 2px;
+          margin: 1px;
           border-radius: 3px;
+          cursor: pointer;
         }
       }
 

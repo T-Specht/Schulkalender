@@ -37200,174 +37200,7 @@ exports.AppContextProvider = function (_a) {
     }
   }, children);
 };
-},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","moment":"node_modules/moment/moment.js"}],"src/Day.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var React = __importStar(require("react"));
-
-var classnames_1 = __importDefault(require("classnames"));
-
-var AppContext_1 = require("./AppContext");
-
-function shorten(text, maxLength) {
-  if (!text) return;
-  return text.substring(0, maxLength);
-}
-
-exports.Day = function (_a) {
-  //if(date.isSame())
-  var date = _a.date,
-      cals = _a.cals;
-  var context = React.useContext(AppContext_1.AppContext);
-  return React.createElement("tr", {
-    className: classnames_1.default("day", {
-      weekend: date.day() === 6 || date.day() === 0
-    })
-  }, React.createElement("td", {
-    className: "date"
-  }, date.date()), context.calendarGroups.filter(function (g) {
-    return g.active;
-  }).map(function (g, i) {
-    return React.createElement("td", {
-      key: i,
-      className: "calendar-column",
-      style: {
-        color: g.whiteText ? "white" : "inherit"
-      }
-    }, React.createElement("div", {
-      className: "events"
-    }, cals.filter(function (cal) {
-      return cal.groupUUID == g.uuid;
-    }).map(function (c) {
-      return c.events.map(function (e, i) {
-        return React.createElement("div", {
-          key: i,
-          className: "event",
-          style: {
-            backgroundColor: g.color
-          },
-          onClick: function onClick() {
-            return console.log(e);
-          }
-        }, shorten(e.summary, context.textLength));
-      });
-    })));
-  }));
-};
-},{"react":"node_modules/react/index.js","classnames":"node_modules/classnames/index.js","./AppContext":"src/AppContext.tsx"}],"src/Month.tsx":[function(require,module,exports) {
-"use strict";
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var react_1 = __importStar(require("react"));
-
-var moment_1 = __importDefault(require("moment"));
-
-var Day_1 = require("./Day");
-
-var AppContext_1 = require("./AppContext");
-
-var Month = function Month(props) {
-  var date = props.date.clone();
-  var iterationDate = date.clone();
-  var days = [];
-  var context = react_1.useContext(AppContext_1.AppContext);
-  var filteredCals = context.calendars.map(function (c) {
-    var events = [];
-    if (c.data) events = c.data.items.filter(function (i) {
-      return i.kind == "calendar#event" && !!i.start;
-    }).filter(function (i) {
-      return date.isSame(moment_1.default(i.start.dateTime || i.start.date), 'month');
-    });
-    return __assign({}, c, {
-      events: events
-    });
-  }); //console.log(filteredCals);
-
-  do {
-    days.push(react_1.default.createElement(Day_1.Day, {
-      date: iterationDate.clone(),
-      key: iterationDate.date(),
-      cals: filteredCals.map(function (c) {
-        return __assign({}, c, {
-          events: c.events.filter(function (e) {
-            return iterationDate.isBetween(moment_1.default(e.start.dateTime || e.start.date), moment_1.default(e.end.dateTime || e.end.date || e.start.dateTime || e.start.date).subtract(1, 'minute'), 'date', "[]") && e.summary;
-          })
-        });
-      })
-    }));
-    iterationDate.add(1, "day");
-  } while (iterationDate.month() == date.month());
-
-  return react_1.default.createElement("div", {
-    className: "month"
-  }, react_1.default.createElement("h1", null, date.format("MMMM YYYY")), react_1.default.createElement("table", null, react_1.default.createElement("thead", null, react_1.default.createElement("tr", null, react_1.default.createElement("td", {
-    className: "date-span-head"
-  }), context.calendarGroups.filter(function (g) {
-    return g.active;
-  }).map(function (c) {
-    return react_1.default.createElement("td", {
-      key: c.name
-    }, c.name);
-  }))), react_1.default.createElement("tbody", null, days)));
-};
-
-exports.default = react_1.default.memo(Month);
-},{"react":"node_modules/react/index.js","moment":"node_modules/moment/moment.js","./Day":"src/Day.tsx","./AppContext":"src/AppContext.tsx"}],"node_modules/@babel/runtime/helpers/extends.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","axios":"node_modules/axios/index.js","moment":"node_modules/moment/moment.js"}],"node_modules/@babel/runtime/helpers/extends.js":[function(require,module,exports) {
 function _extends() {
   module.exports = _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -75601,7 +75434,3102 @@ var _StatisticLabel2 = _interopRequireDefault(require("./views/Statistic/Statist
 var _StatisticValue2 = _interopRequireDefault(require("./views/Statistic/StatisticValue"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./addons/Confirm":"node_modules/semantic-ui-react/dist/es/addons/Confirm/index.js","./addons/MountNode":"node_modules/semantic-ui-react/dist/es/addons/MountNode/index.js","./addons/Pagination":"node_modules/semantic-ui-react/dist/es/addons/Pagination/index.js","./addons/Pagination/PaginationItem":"node_modules/semantic-ui-react/dist/es/addons/Pagination/PaginationItem.js","./addons/Portal":"node_modules/semantic-ui-react/dist/es/addons/Portal/index.js","./addons/Portal/PortalInner":"node_modules/semantic-ui-react/dist/es/addons/Portal/PortalInner.js","./addons/Radio":"node_modules/semantic-ui-react/dist/es/addons/Radio/index.js","./addons/Ref":"node_modules/semantic-ui-react/dist/es/addons/Ref/index.js","./addons/Ref/RefFindNode":"node_modules/semantic-ui-react/dist/es/addons/Ref/RefFindNode.js","./addons/Ref/RefForward":"node_modules/semantic-ui-react/dist/es/addons/Ref/RefForward.js","./addons/Responsive":"node_modules/semantic-ui-react/dist/es/addons/Responsive/index.js","./addons/Select":"node_modules/semantic-ui-react/dist/es/addons/Select/index.js","./addons/TextArea":"node_modules/semantic-ui-react/dist/es/addons/TextArea/index.js","./addons/TransitionablePortal":"node_modules/semantic-ui-react/dist/es/addons/TransitionablePortal/index.js","./behaviors/Visibility":"node_modules/semantic-ui-react/dist/es/behaviors/Visibility/index.js","./collections/Breadcrumb":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/index.js","./collections/Breadcrumb/BreadcrumbDivider":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/BreadcrumbDivider.js","./collections/Breadcrumb/BreadcrumbSection":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/BreadcrumbSection.js","./collections/Form":"node_modules/semantic-ui-react/dist/es/collections/Form/index.js","./collections/Form/FormButton":"node_modules/semantic-ui-react/dist/es/collections/Form/FormButton.js","./collections/Form/FormCheckbox":"node_modules/semantic-ui-react/dist/es/collections/Form/FormCheckbox.js","./collections/Form/FormDropdown":"node_modules/semantic-ui-react/dist/es/collections/Form/FormDropdown.js","./collections/Form/FormField":"node_modules/semantic-ui-react/dist/es/collections/Form/FormField.js","./collections/Form/FormGroup":"node_modules/semantic-ui-react/dist/es/collections/Form/FormGroup.js","./collections/Form/FormInput":"node_modules/semantic-ui-react/dist/es/collections/Form/FormInput.js","./collections/Form/FormRadio":"node_modules/semantic-ui-react/dist/es/collections/Form/FormRadio.js","./collections/Form/FormSelect":"node_modules/semantic-ui-react/dist/es/collections/Form/FormSelect.js","./collections/Form/FormTextArea":"node_modules/semantic-ui-react/dist/es/collections/Form/FormTextArea.js","./collections/Grid":"node_modules/semantic-ui-react/dist/es/collections/Grid/index.js","./collections/Grid/GridColumn":"node_modules/semantic-ui-react/dist/es/collections/Grid/GridColumn.js","./collections/Grid/GridRow":"node_modules/semantic-ui-react/dist/es/collections/Grid/GridRow.js","./collections/Menu":"node_modules/semantic-ui-react/dist/es/collections/Menu/index.js","./collections/Menu/MenuHeader":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuHeader.js","./collections/Menu/MenuItem":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuItem.js","./collections/Menu/MenuMenu":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuMenu.js","./collections/Message":"node_modules/semantic-ui-react/dist/es/collections/Message/index.js","./collections/Message/MessageContent":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageContent.js","./collections/Message/MessageHeader":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageHeader.js","./collections/Message/MessageItem":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageItem.js","./collections/Message/MessageList":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageList.js","./collections/Table":"node_modules/semantic-ui-react/dist/es/collections/Table/index.js","./collections/Table/TableBody":"node_modules/semantic-ui-react/dist/es/collections/Table/TableBody.js","./collections/Table/TableCell":"node_modules/semantic-ui-react/dist/es/collections/Table/TableCell.js","./collections/Table/TableFooter":"node_modules/semantic-ui-react/dist/es/collections/Table/TableFooter.js","./collections/Table/TableHeader":"node_modules/semantic-ui-react/dist/es/collections/Table/TableHeader.js","./collections/Table/TableHeaderCell":"node_modules/semantic-ui-react/dist/es/collections/Table/TableHeaderCell.js","./collections/Table/TableRow":"node_modules/semantic-ui-react/dist/es/collections/Table/TableRow.js","./elements/Button/Button":"node_modules/semantic-ui-react/dist/es/elements/Button/Button.js","./elements/Button/ButtonContent":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonContent.js","./elements/Button/ButtonGroup":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonGroup.js","./elements/Button/ButtonOr":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonOr.js","./elements/Container":"node_modules/semantic-ui-react/dist/es/elements/Container/index.js","./elements/Divider":"node_modules/semantic-ui-react/dist/es/elements/Divider/index.js","./elements/Flag":"node_modules/semantic-ui-react/dist/es/elements/Flag/index.js","./elements/Header":"node_modules/semantic-ui-react/dist/es/elements/Header/index.js","./elements/Header/HeaderContent":"node_modules/semantic-ui-react/dist/es/elements/Header/HeaderContent.js","./elements/Header/HeaderSubheader":"node_modules/semantic-ui-react/dist/es/elements/Header/HeaderSubheader.js","./elements/Icon":"node_modules/semantic-ui-react/dist/es/elements/Icon/index.js","./elements/Icon/IconGroup":"node_modules/semantic-ui-react/dist/es/elements/Icon/IconGroup.js","./elements/Image":"node_modules/semantic-ui-react/dist/es/elements/Image/index.js","./elements/Image/ImageGroup":"node_modules/semantic-ui-react/dist/es/elements/Image/ImageGroup.js","./elements/Input":"node_modules/semantic-ui-react/dist/es/elements/Input/index.js","./elements/Label":"node_modules/semantic-ui-react/dist/es/elements/Label/index.js","./elements/Label/LabelDetail":"node_modules/semantic-ui-react/dist/es/elements/Label/LabelDetail.js","./elements/Label/LabelGroup":"node_modules/semantic-ui-react/dist/es/elements/Label/LabelGroup.js","./elements/List":"node_modules/semantic-ui-react/dist/es/elements/List/index.js","./elements/List/ListContent":"node_modules/semantic-ui-react/dist/es/elements/List/ListContent.js","./elements/List/ListDescription":"node_modules/semantic-ui-react/dist/es/elements/List/ListDescription.js","./elements/List/ListHeader":"node_modules/semantic-ui-react/dist/es/elements/List/ListHeader.js","./elements/List/ListIcon":"node_modules/semantic-ui-react/dist/es/elements/List/ListIcon.js","./elements/List/ListItem":"node_modules/semantic-ui-react/dist/es/elements/List/ListItem.js","./elements/List/ListList":"node_modules/semantic-ui-react/dist/es/elements/List/ListList.js","./elements/Loader":"node_modules/semantic-ui-react/dist/es/elements/Loader/index.js","./elements/Placeholder":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/index.js","./elements/Placeholder/PlaceholderHeader":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderHeader.js","./elements/Placeholder/PlaceholderImage":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderImage.js","./elements/Placeholder/PlaceholderLine":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderLine.js","./elements/Placeholder/PlaceholderParagraph":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderParagraph.js","./elements/Rail":"node_modules/semantic-ui-react/dist/es/elements/Rail/index.js","./elements/Reveal":"node_modules/semantic-ui-react/dist/es/elements/Reveal/index.js","./elements/Reveal/RevealContent":"node_modules/semantic-ui-react/dist/es/elements/Reveal/RevealContent.js","./elements/Segment":"node_modules/semantic-ui-react/dist/es/elements/Segment/index.js","./elements/Segment/SegmentGroup":"node_modules/semantic-ui-react/dist/es/elements/Segment/SegmentGroup.js","./elements/Segment/SegmentInline":"node_modules/semantic-ui-react/dist/es/elements/Segment/SegmentInline.js","./elements/Step":"node_modules/semantic-ui-react/dist/es/elements/Step/index.js","./elements/Step/StepContent":"node_modules/semantic-ui-react/dist/es/elements/Step/StepContent.js","./elements/Step/StepDescription":"node_modules/semantic-ui-react/dist/es/elements/Step/StepDescription.js","./elements/Step/StepGroup":"node_modules/semantic-ui-react/dist/es/elements/Step/StepGroup.js","./elements/Step/StepTitle":"node_modules/semantic-ui-react/dist/es/elements/Step/StepTitle.js","./modules/Accordion/Accordion":"node_modules/semantic-ui-react/dist/es/modules/Accordion/Accordion.js","./modules/Accordion/AccordionAccordion":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionAccordion.js","./modules/Accordion/AccordionContent":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionContent.js","./modules/Accordion/AccordionPanel":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionPanel.js","./modules/Accordion/AccordionTitle":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionTitle.js","./modules/Checkbox":"node_modules/semantic-ui-react/dist/es/modules/Checkbox/index.js","./modules/Dimmer":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/index.js","./modules/Dimmer/DimmerDimmable":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/DimmerDimmable.js","./modules/Dimmer/DimmerInner":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/DimmerInner.js","./modules/Dropdown":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/index.js","./modules/Dropdown/DropdownDivider":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownDivider.js","./modules/Dropdown/DropdownHeader":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownHeader.js","./modules/Dropdown/DropdownItem":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownItem.js","./modules/Dropdown/DropdownMenu":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownMenu.js","./modules/Dropdown/DropdownSearchInput":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownSearchInput.js","./modules/Embed":"node_modules/semantic-ui-react/dist/es/modules/Embed/index.js","./modules/Modal":"node_modules/semantic-ui-react/dist/es/modules/Modal/index.js","./modules/Modal/ModalActions":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalActions.js","./modules/Modal/ModalContent":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalContent.js","./modules/Modal/ModalDescription":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalDescription.js","./modules/Modal/ModalHeader":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalHeader.js","./modules/Popup":"node_modules/semantic-ui-react/dist/es/modules/Popup/index.js","./modules/Popup/PopupContent":"node_modules/semantic-ui-react/dist/es/modules/Popup/PopupContent.js","./modules/Popup/PopupHeader":"node_modules/semantic-ui-react/dist/es/modules/Popup/PopupHeader.js","./modules/Progress":"node_modules/semantic-ui-react/dist/es/modules/Progress/index.js","./modules/Rating":"node_modules/semantic-ui-react/dist/es/modules/Rating/index.js","./modules/Rating/RatingIcon":"node_modules/semantic-ui-react/dist/es/modules/Rating/RatingIcon.js","./modules/Search":"node_modules/semantic-ui-react/dist/es/modules/Search/index.js","./modules/Search/SearchCategory":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchCategory.js","./modules/Search/SearchResult":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchResult.js","./modules/Search/SearchResults":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchResults.js","./modules/Sidebar":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/index.js","./modules/Sidebar/SidebarPushable":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/SidebarPushable.js","./modules/Sidebar/SidebarPusher":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/SidebarPusher.js","./modules/Sticky":"node_modules/semantic-ui-react/dist/es/modules/Sticky/index.js","./modules/Tab":"node_modules/semantic-ui-react/dist/es/modules/Tab/index.js","./modules/Tab/TabPane":"node_modules/semantic-ui-react/dist/es/modules/Tab/TabPane.js","./modules/Transition":"node_modules/semantic-ui-react/dist/es/modules/Transition/index.js","./modules/Transition/TransitionGroup":"node_modules/semantic-ui-react/dist/es/modules/Transition/TransitionGroup.js","./views/Advertisement":"node_modules/semantic-ui-react/dist/es/views/Advertisement/index.js","./views/Card/Card":"node_modules/semantic-ui-react/dist/es/views/Card/Card.js","./views/Card/CardContent":"node_modules/semantic-ui-react/dist/es/views/Card/CardContent.js","./views/Card/CardDescription":"node_modules/semantic-ui-react/dist/es/views/Card/CardDescription.js","./views/Card/CardGroup":"node_modules/semantic-ui-react/dist/es/views/Card/CardGroup.js","./views/Card/CardHeader":"node_modules/semantic-ui-react/dist/es/views/Card/CardHeader.js","./views/Card/CardMeta":"node_modules/semantic-ui-react/dist/es/views/Card/CardMeta.js","./views/Comment":"node_modules/semantic-ui-react/dist/es/views/Comment/index.js","./views/Comment/CommentAction":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAction.js","./views/Comment/CommentActions":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentActions.js","./views/Comment/CommentAuthor":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAuthor.js","./views/Comment/CommentAvatar":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAvatar.js","./views/Comment/CommentContent":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentContent.js","./views/Comment/CommentGroup":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentGroup.js","./views/Comment/CommentMetadata":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentMetadata.js","./views/Comment/CommentText":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentText.js","./views/Feed":"node_modules/semantic-ui-react/dist/es/views/Feed/index.js","./views/Feed/FeedContent":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedContent.js","./views/Feed/FeedDate":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedDate.js","./views/Feed/FeedEvent":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedEvent.js","./views/Feed/FeedExtra":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedExtra.js","./views/Feed/FeedLabel":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedLabel.js","./views/Feed/FeedLike":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedLike.js","./views/Feed/FeedMeta":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedMeta.js","./views/Feed/FeedSummary":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedSummary.js","./views/Feed/FeedUser":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedUser.js","./views/Item":"node_modules/semantic-ui-react/dist/es/views/Item/index.js","./views/Item/ItemContent":"node_modules/semantic-ui-react/dist/es/views/Item/ItemContent.js","./views/Item/ItemDescription":"node_modules/semantic-ui-react/dist/es/views/Item/ItemDescription.js","./views/Item/ItemExtra":"node_modules/semantic-ui-react/dist/es/views/Item/ItemExtra.js","./views/Item/ItemGroup":"node_modules/semantic-ui-react/dist/es/views/Item/ItemGroup.js","./views/Item/ItemHeader":"node_modules/semantic-ui-react/dist/es/views/Item/ItemHeader.js","./views/Item/ItemImage":"node_modules/semantic-ui-react/dist/es/views/Item/ItemImage.js","./views/Item/ItemMeta":"node_modules/semantic-ui-react/dist/es/views/Item/ItemMeta.js","./views/Statistic":"node_modules/semantic-ui-react/dist/es/views/Statistic/index.js","./views/Statistic/StatisticGroup":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticGroup.js","./views/Statistic/StatisticLabel":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticLabel.js","./views/Statistic/StatisticValue":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticValue.js"}],"src/Months.tsx":[function(require,module,exports) {
+},{"./addons/Confirm":"node_modules/semantic-ui-react/dist/es/addons/Confirm/index.js","./addons/MountNode":"node_modules/semantic-ui-react/dist/es/addons/MountNode/index.js","./addons/Pagination":"node_modules/semantic-ui-react/dist/es/addons/Pagination/index.js","./addons/Pagination/PaginationItem":"node_modules/semantic-ui-react/dist/es/addons/Pagination/PaginationItem.js","./addons/Portal":"node_modules/semantic-ui-react/dist/es/addons/Portal/index.js","./addons/Portal/PortalInner":"node_modules/semantic-ui-react/dist/es/addons/Portal/PortalInner.js","./addons/Radio":"node_modules/semantic-ui-react/dist/es/addons/Radio/index.js","./addons/Ref":"node_modules/semantic-ui-react/dist/es/addons/Ref/index.js","./addons/Ref/RefFindNode":"node_modules/semantic-ui-react/dist/es/addons/Ref/RefFindNode.js","./addons/Ref/RefForward":"node_modules/semantic-ui-react/dist/es/addons/Ref/RefForward.js","./addons/Responsive":"node_modules/semantic-ui-react/dist/es/addons/Responsive/index.js","./addons/Select":"node_modules/semantic-ui-react/dist/es/addons/Select/index.js","./addons/TextArea":"node_modules/semantic-ui-react/dist/es/addons/TextArea/index.js","./addons/TransitionablePortal":"node_modules/semantic-ui-react/dist/es/addons/TransitionablePortal/index.js","./behaviors/Visibility":"node_modules/semantic-ui-react/dist/es/behaviors/Visibility/index.js","./collections/Breadcrumb":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/index.js","./collections/Breadcrumb/BreadcrumbDivider":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/BreadcrumbDivider.js","./collections/Breadcrumb/BreadcrumbSection":"node_modules/semantic-ui-react/dist/es/collections/Breadcrumb/BreadcrumbSection.js","./collections/Form":"node_modules/semantic-ui-react/dist/es/collections/Form/index.js","./collections/Form/FormButton":"node_modules/semantic-ui-react/dist/es/collections/Form/FormButton.js","./collections/Form/FormCheckbox":"node_modules/semantic-ui-react/dist/es/collections/Form/FormCheckbox.js","./collections/Form/FormDropdown":"node_modules/semantic-ui-react/dist/es/collections/Form/FormDropdown.js","./collections/Form/FormField":"node_modules/semantic-ui-react/dist/es/collections/Form/FormField.js","./collections/Form/FormGroup":"node_modules/semantic-ui-react/dist/es/collections/Form/FormGroup.js","./collections/Form/FormInput":"node_modules/semantic-ui-react/dist/es/collections/Form/FormInput.js","./collections/Form/FormRadio":"node_modules/semantic-ui-react/dist/es/collections/Form/FormRadio.js","./collections/Form/FormSelect":"node_modules/semantic-ui-react/dist/es/collections/Form/FormSelect.js","./collections/Form/FormTextArea":"node_modules/semantic-ui-react/dist/es/collections/Form/FormTextArea.js","./collections/Grid":"node_modules/semantic-ui-react/dist/es/collections/Grid/index.js","./collections/Grid/GridColumn":"node_modules/semantic-ui-react/dist/es/collections/Grid/GridColumn.js","./collections/Grid/GridRow":"node_modules/semantic-ui-react/dist/es/collections/Grid/GridRow.js","./collections/Menu":"node_modules/semantic-ui-react/dist/es/collections/Menu/index.js","./collections/Menu/MenuHeader":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuHeader.js","./collections/Menu/MenuItem":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuItem.js","./collections/Menu/MenuMenu":"node_modules/semantic-ui-react/dist/es/collections/Menu/MenuMenu.js","./collections/Message":"node_modules/semantic-ui-react/dist/es/collections/Message/index.js","./collections/Message/MessageContent":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageContent.js","./collections/Message/MessageHeader":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageHeader.js","./collections/Message/MessageItem":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageItem.js","./collections/Message/MessageList":"node_modules/semantic-ui-react/dist/es/collections/Message/MessageList.js","./collections/Table":"node_modules/semantic-ui-react/dist/es/collections/Table/index.js","./collections/Table/TableBody":"node_modules/semantic-ui-react/dist/es/collections/Table/TableBody.js","./collections/Table/TableCell":"node_modules/semantic-ui-react/dist/es/collections/Table/TableCell.js","./collections/Table/TableFooter":"node_modules/semantic-ui-react/dist/es/collections/Table/TableFooter.js","./collections/Table/TableHeader":"node_modules/semantic-ui-react/dist/es/collections/Table/TableHeader.js","./collections/Table/TableHeaderCell":"node_modules/semantic-ui-react/dist/es/collections/Table/TableHeaderCell.js","./collections/Table/TableRow":"node_modules/semantic-ui-react/dist/es/collections/Table/TableRow.js","./elements/Button/Button":"node_modules/semantic-ui-react/dist/es/elements/Button/Button.js","./elements/Button/ButtonContent":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonContent.js","./elements/Button/ButtonGroup":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonGroup.js","./elements/Button/ButtonOr":"node_modules/semantic-ui-react/dist/es/elements/Button/ButtonOr.js","./elements/Container":"node_modules/semantic-ui-react/dist/es/elements/Container/index.js","./elements/Divider":"node_modules/semantic-ui-react/dist/es/elements/Divider/index.js","./elements/Flag":"node_modules/semantic-ui-react/dist/es/elements/Flag/index.js","./elements/Header":"node_modules/semantic-ui-react/dist/es/elements/Header/index.js","./elements/Header/HeaderContent":"node_modules/semantic-ui-react/dist/es/elements/Header/HeaderContent.js","./elements/Header/HeaderSubheader":"node_modules/semantic-ui-react/dist/es/elements/Header/HeaderSubheader.js","./elements/Icon":"node_modules/semantic-ui-react/dist/es/elements/Icon/index.js","./elements/Icon/IconGroup":"node_modules/semantic-ui-react/dist/es/elements/Icon/IconGroup.js","./elements/Image":"node_modules/semantic-ui-react/dist/es/elements/Image/index.js","./elements/Image/ImageGroup":"node_modules/semantic-ui-react/dist/es/elements/Image/ImageGroup.js","./elements/Input":"node_modules/semantic-ui-react/dist/es/elements/Input/index.js","./elements/Label":"node_modules/semantic-ui-react/dist/es/elements/Label/index.js","./elements/Label/LabelDetail":"node_modules/semantic-ui-react/dist/es/elements/Label/LabelDetail.js","./elements/Label/LabelGroup":"node_modules/semantic-ui-react/dist/es/elements/Label/LabelGroup.js","./elements/List":"node_modules/semantic-ui-react/dist/es/elements/List/index.js","./elements/List/ListContent":"node_modules/semantic-ui-react/dist/es/elements/List/ListContent.js","./elements/List/ListDescription":"node_modules/semantic-ui-react/dist/es/elements/List/ListDescription.js","./elements/List/ListHeader":"node_modules/semantic-ui-react/dist/es/elements/List/ListHeader.js","./elements/List/ListIcon":"node_modules/semantic-ui-react/dist/es/elements/List/ListIcon.js","./elements/List/ListItem":"node_modules/semantic-ui-react/dist/es/elements/List/ListItem.js","./elements/List/ListList":"node_modules/semantic-ui-react/dist/es/elements/List/ListList.js","./elements/Loader":"node_modules/semantic-ui-react/dist/es/elements/Loader/index.js","./elements/Placeholder":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/index.js","./elements/Placeholder/PlaceholderHeader":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderHeader.js","./elements/Placeholder/PlaceholderImage":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderImage.js","./elements/Placeholder/PlaceholderLine":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderLine.js","./elements/Placeholder/PlaceholderParagraph":"node_modules/semantic-ui-react/dist/es/elements/Placeholder/PlaceholderParagraph.js","./elements/Rail":"node_modules/semantic-ui-react/dist/es/elements/Rail/index.js","./elements/Reveal":"node_modules/semantic-ui-react/dist/es/elements/Reveal/index.js","./elements/Reveal/RevealContent":"node_modules/semantic-ui-react/dist/es/elements/Reveal/RevealContent.js","./elements/Segment":"node_modules/semantic-ui-react/dist/es/elements/Segment/index.js","./elements/Segment/SegmentGroup":"node_modules/semantic-ui-react/dist/es/elements/Segment/SegmentGroup.js","./elements/Segment/SegmentInline":"node_modules/semantic-ui-react/dist/es/elements/Segment/SegmentInline.js","./elements/Step":"node_modules/semantic-ui-react/dist/es/elements/Step/index.js","./elements/Step/StepContent":"node_modules/semantic-ui-react/dist/es/elements/Step/StepContent.js","./elements/Step/StepDescription":"node_modules/semantic-ui-react/dist/es/elements/Step/StepDescription.js","./elements/Step/StepGroup":"node_modules/semantic-ui-react/dist/es/elements/Step/StepGroup.js","./elements/Step/StepTitle":"node_modules/semantic-ui-react/dist/es/elements/Step/StepTitle.js","./modules/Accordion/Accordion":"node_modules/semantic-ui-react/dist/es/modules/Accordion/Accordion.js","./modules/Accordion/AccordionAccordion":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionAccordion.js","./modules/Accordion/AccordionContent":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionContent.js","./modules/Accordion/AccordionPanel":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionPanel.js","./modules/Accordion/AccordionTitle":"node_modules/semantic-ui-react/dist/es/modules/Accordion/AccordionTitle.js","./modules/Checkbox":"node_modules/semantic-ui-react/dist/es/modules/Checkbox/index.js","./modules/Dimmer":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/index.js","./modules/Dimmer/DimmerDimmable":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/DimmerDimmable.js","./modules/Dimmer/DimmerInner":"node_modules/semantic-ui-react/dist/es/modules/Dimmer/DimmerInner.js","./modules/Dropdown":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/index.js","./modules/Dropdown/DropdownDivider":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownDivider.js","./modules/Dropdown/DropdownHeader":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownHeader.js","./modules/Dropdown/DropdownItem":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownItem.js","./modules/Dropdown/DropdownMenu":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownMenu.js","./modules/Dropdown/DropdownSearchInput":"node_modules/semantic-ui-react/dist/es/modules/Dropdown/DropdownSearchInput.js","./modules/Embed":"node_modules/semantic-ui-react/dist/es/modules/Embed/index.js","./modules/Modal":"node_modules/semantic-ui-react/dist/es/modules/Modal/index.js","./modules/Modal/ModalActions":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalActions.js","./modules/Modal/ModalContent":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalContent.js","./modules/Modal/ModalDescription":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalDescription.js","./modules/Modal/ModalHeader":"node_modules/semantic-ui-react/dist/es/modules/Modal/ModalHeader.js","./modules/Popup":"node_modules/semantic-ui-react/dist/es/modules/Popup/index.js","./modules/Popup/PopupContent":"node_modules/semantic-ui-react/dist/es/modules/Popup/PopupContent.js","./modules/Popup/PopupHeader":"node_modules/semantic-ui-react/dist/es/modules/Popup/PopupHeader.js","./modules/Progress":"node_modules/semantic-ui-react/dist/es/modules/Progress/index.js","./modules/Rating":"node_modules/semantic-ui-react/dist/es/modules/Rating/index.js","./modules/Rating/RatingIcon":"node_modules/semantic-ui-react/dist/es/modules/Rating/RatingIcon.js","./modules/Search":"node_modules/semantic-ui-react/dist/es/modules/Search/index.js","./modules/Search/SearchCategory":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchCategory.js","./modules/Search/SearchResult":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchResult.js","./modules/Search/SearchResults":"node_modules/semantic-ui-react/dist/es/modules/Search/SearchResults.js","./modules/Sidebar":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/index.js","./modules/Sidebar/SidebarPushable":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/SidebarPushable.js","./modules/Sidebar/SidebarPusher":"node_modules/semantic-ui-react/dist/es/modules/Sidebar/SidebarPusher.js","./modules/Sticky":"node_modules/semantic-ui-react/dist/es/modules/Sticky/index.js","./modules/Tab":"node_modules/semantic-ui-react/dist/es/modules/Tab/index.js","./modules/Tab/TabPane":"node_modules/semantic-ui-react/dist/es/modules/Tab/TabPane.js","./modules/Transition":"node_modules/semantic-ui-react/dist/es/modules/Transition/index.js","./modules/Transition/TransitionGroup":"node_modules/semantic-ui-react/dist/es/modules/Transition/TransitionGroup.js","./views/Advertisement":"node_modules/semantic-ui-react/dist/es/views/Advertisement/index.js","./views/Card/Card":"node_modules/semantic-ui-react/dist/es/views/Card/Card.js","./views/Card/CardContent":"node_modules/semantic-ui-react/dist/es/views/Card/CardContent.js","./views/Card/CardDescription":"node_modules/semantic-ui-react/dist/es/views/Card/CardDescription.js","./views/Card/CardGroup":"node_modules/semantic-ui-react/dist/es/views/Card/CardGroup.js","./views/Card/CardHeader":"node_modules/semantic-ui-react/dist/es/views/Card/CardHeader.js","./views/Card/CardMeta":"node_modules/semantic-ui-react/dist/es/views/Card/CardMeta.js","./views/Comment":"node_modules/semantic-ui-react/dist/es/views/Comment/index.js","./views/Comment/CommentAction":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAction.js","./views/Comment/CommentActions":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentActions.js","./views/Comment/CommentAuthor":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAuthor.js","./views/Comment/CommentAvatar":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentAvatar.js","./views/Comment/CommentContent":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentContent.js","./views/Comment/CommentGroup":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentGroup.js","./views/Comment/CommentMetadata":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentMetadata.js","./views/Comment/CommentText":"node_modules/semantic-ui-react/dist/es/views/Comment/CommentText.js","./views/Feed":"node_modules/semantic-ui-react/dist/es/views/Feed/index.js","./views/Feed/FeedContent":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedContent.js","./views/Feed/FeedDate":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedDate.js","./views/Feed/FeedEvent":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedEvent.js","./views/Feed/FeedExtra":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedExtra.js","./views/Feed/FeedLabel":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedLabel.js","./views/Feed/FeedLike":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedLike.js","./views/Feed/FeedMeta":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedMeta.js","./views/Feed/FeedSummary":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedSummary.js","./views/Feed/FeedUser":"node_modules/semantic-ui-react/dist/es/views/Feed/FeedUser.js","./views/Item":"node_modules/semantic-ui-react/dist/es/views/Item/index.js","./views/Item/ItemContent":"node_modules/semantic-ui-react/dist/es/views/Item/ItemContent.js","./views/Item/ItemDescription":"node_modules/semantic-ui-react/dist/es/views/Item/ItemDescription.js","./views/Item/ItemExtra":"node_modules/semantic-ui-react/dist/es/views/Item/ItemExtra.js","./views/Item/ItemGroup":"node_modules/semantic-ui-react/dist/es/views/Item/ItemGroup.js","./views/Item/ItemHeader":"node_modules/semantic-ui-react/dist/es/views/Item/ItemHeader.js","./views/Item/ItemImage":"node_modules/semantic-ui-react/dist/es/views/Item/ItemImage.js","./views/Item/ItemMeta":"node_modules/semantic-ui-react/dist/es/views/Item/ItemMeta.js","./views/Statistic":"node_modules/semantic-ui-react/dist/es/views/Statistic/index.js","./views/Statistic/StatisticGroup":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticGroup.js","./views/Statistic/StatisticLabel":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticLabel.js","./views/Statistic/StatisticValue":"node_modules/semantic-ui-react/dist/es/views/Statistic/StatisticValue.js"}],"src/Day.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = __importStar(require("react"));
+
+var classnames_1 = __importDefault(require("classnames"));
+
+var moment_1 = __importDefault(require("moment"));
+
+var AppContext_1 = require("./AppContext");
+
+var semantic_ui_react_1 = require("semantic-ui-react");
+
+function shorten(text, maxLength) {
+  if (!text) return;
+  return text.substring(0, maxLength);
+}
+
+exports.Event = function (_a) {
+  var group = _a.group,
+      event = _a.event,
+      textLength = _a.textLength;
+  var startDate = moment_1.default(event.start.dateTime || event.start.date);
+  var endDate = moment_1.default(event.end.dateTime || event.end.date);
+  var wholeDay = !!event.start.date;
+  var sameDate = wholeDay ? startDate.isSame(endDate.clone().subtract(1, "day"), "date") : startDate.isSame(endDate, "date");
+  var DATE_FORMAT = "dddd, D. MMM YYYY";
+  var TIME_FORMAT = "HH:mm";
+  var dateDisplayString;
+
+  if (wholeDay) {
+    if (sameDate) {
+      dateDisplayString = startDate.format(DATE_FORMAT) + " ganzt\xE4gig";
+    } else {
+      dateDisplayString = startDate.format(DATE_FORMAT) + " bis " + endDate.clone().subtract(1, "day").format(DATE_FORMAT);
+    }
+  } else {
+    if (sameDate) {
+      dateDisplayString = startDate.format(DATE_FORMAT + " " + TIME_FORMAT) + " bis " + endDate.format(TIME_FORMAT) + " Uhr";
+    } else {
+      dateDisplayString = startDate.format(DATE_FORMAT + " " + TIME_FORMAT) + " Uhr bis " + endDate.format(DATE_FORMAT + " " + TIME_FORMAT) + " Uhr";
+    }
+  }
+
+  return React.createElement(semantic_ui_react_1.Modal, {
+    trigger: React.createElement("div", {
+      className: "event",
+      style: {
+        backgroundColor: group.color
+      }
+    }, shorten(event.summary, textLength))
+  }, React.createElement(semantic_ui_react_1.Modal.Header, null, React.createElement("span", {
+    className: "color-dot",
+    style: {
+      backgroundColor: group.color
+    }
+  }), React.createElement("span", {
+    style: {
+      verticalAlign: "middle"
+    }
+  }, event.summary)), React.createElement(semantic_ui_react_1.Modal.Content, {
+    image: true
+  }, React.createElement(semantic_ui_react_1.Modal.Description, null, React.createElement("h4", null, "\uD83D\uDDD3 ", dateDisplayString), event.location && React.createElement("p", null, "\uD83D\uDCCD ", event.location), React.createElement("p", null, event.description), React.createElement("p", {
+    className: "more-info"
+  }, "Erstellt von ", event.creator.displayName || event.creator.email, ", letzte \xC4nderung am ", moment_1.default(event.updated).format(DATE_FORMAT + " " + TIME_FORMAT), " Uhr"))));
+};
+
+exports.Day = function (_a) {
+  //if(date.isSame())
+  var date = _a.date,
+      cals = _a.cals;
+  var context = React.useContext(AppContext_1.AppContext);
+  return React.createElement("tr", {
+    className: classnames_1.default("day", {
+      weekend: date.day() === 6 || date.day() === 0
+    })
+  }, React.createElement("td", {
+    className: "date"
+  }, date.date()), context.calendarGroups.filter(function (g) {
+    return g.active;
+  }).map(function (g, i) {
+    return React.createElement("td", {
+      key: i,
+      className: "calendar-column",
+      style: {
+        color: g.whiteText ? "white" : "inherit"
+      }
+    }, React.createElement("div", {
+      className: "events"
+    }, cals.filter(function (cal) {
+      return cal.groupUUID == g.uuid;
+    }).map(function (c) {
+      return c.events.map(function (e, i) {
+        return React.createElement(exports.Event, {
+          key: i,
+          group: g,
+          event: e,
+          textLength: context.textLength
+        });
+      });
+    })));
+  }));
+};
+},{"react":"node_modules/react/index.js","classnames":"node_modules/classnames/index.js","moment":"node_modules/moment/moment.js","./AppContext":"src/AppContext.tsx","semantic-ui-react":"node_modules/semantic-ui-react/dist/es/index.js"}],"src/Month.tsx":[function(require,module,exports) {
+"use strict";
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importStar(require("react"));
+
+var moment_1 = __importDefault(require("moment"));
+
+var Day_1 = require("./Day");
+
+var AppContext_1 = require("./AppContext");
+
+var Month = function Month(props) {
+  var date = props.date.clone();
+  var iterationDate = date.clone();
+  var days = [];
+  var context = react_1.useContext(AppContext_1.AppContext);
+  var filteredCals = context.calendars.map(function (c) {
+    var events = [];
+    if (c.data) events = c.data.items.filter(function (i) {
+      return i.kind == "calendar#event" && !!i.start;
+    }).filter(function (i) {
+      var startMonth = moment_1.default(i.start.dateTime || i.start.date);
+      var endMonth = moment_1.default(i.end.dateTime || i.end.date); //if(i.description) console.log(i);
+
+      return date.isBetween(startMonth, endMonth, 'month', "[]"); //return date.isSame(moment(i.start.dateTime || i.start.date), "month")
+    });
+    return __assign({}, c, {
+      events: events
+    });
+  }); //console.log(filteredCals);
+
+  do {
+    days.push(react_1.default.createElement(Day_1.Day, {
+      date: iterationDate.clone(),
+      key: iterationDate.date(),
+      cals: filteredCals.map(function (c) {
+        return __assign({}, c, {
+          events: c.events.filter(function (e) {
+            return iterationDate.isBetween(moment_1.default(e.start.dateTime || e.start.date), moment_1.default(e.end.dateTime || e.end.date || e.start.dateTime || e.start.date).subtract(1, "minute"), "date", "[]") && e.summary;
+          })
+        });
+      })
+    }));
+    iterationDate.add(1, "day");
+  } while (iterationDate.month() == date.month());
+
+  return react_1.default.createElement("div", {
+    className: "month"
+  }, react_1.default.createElement("h1", null, date.format("MMMM YYYY")), react_1.default.createElement("table", null, react_1.default.createElement("thead", null, react_1.default.createElement("tr", null, react_1.default.createElement("td", {
+    className: "date-span-head"
+  }), context.calendarGroups.filter(function (g) {
+    return g.active;
+  }).map(function (c) {
+    return react_1.default.createElement("td", {
+      key: c.name
+    }, c.name);
+  }))), react_1.default.createElement("tbody", null, days)));
+};
+
+exports.default = react_1.default.memo(Month);
+},{"react":"node_modules/react/index.js","moment":"node_modules/moment/moment.js","./Day":"src/Day.tsx","./AppContext":"src/AppContext.tsx"}],"node_modules/hammerjs/hammer.js":[function(require,module,exports) {
+var define;
+/*! Hammer.JS - v2.0.7 - 2016-04-22
+ * http://hammerjs.github.io/
+ *
+ * Copyright (c) 2016 Jorik Tangelder;
+ * Licensed under the MIT license */
+(function (window, document, exportName, undefined) {
+  'use strict';
+
+  var VENDOR_PREFIXES = ['', 'webkit', 'Moz', 'MS', 'ms', 'o'];
+  var TEST_ELEMENT = document.createElement('div');
+  var TYPE_FUNCTION = 'function';
+  var round = Math.round;
+  var abs = Math.abs;
+  var now = Date.now;
+  /**
+   * set a timeout with a given scope
+   * @param {Function} fn
+   * @param {Number} timeout
+   * @param {Object} context
+   * @returns {number}
+   */
+
+  function setTimeoutContext(fn, timeout, context) {
+    return setTimeout(bindFn(fn, context), timeout);
+  }
+  /**
+   * if the argument is an array, we want to execute the fn on each entry
+   * if it aint an array we don't want to do a thing.
+   * this is used by all the methods that accept a single and array argument.
+   * @param {*|Array} arg
+   * @param {String} fn
+   * @param {Object} [context]
+   * @returns {Boolean}
+   */
+
+
+  function invokeArrayArg(arg, fn, context) {
+    if (Array.isArray(arg)) {
+      each(arg, context[fn], context);
+      return true;
+    }
+
+    return false;
+  }
+  /**
+   * walk objects and arrays
+   * @param {Object} obj
+   * @param {Function} iterator
+   * @param {Object} context
+   */
+
+
+  function each(obj, iterator, context) {
+    var i;
+
+    if (!obj) {
+      return;
+    }
+
+    if (obj.forEach) {
+      obj.forEach(iterator, context);
+    } else if (obj.length !== undefined) {
+      i = 0;
+
+      while (i < obj.length) {
+        iterator.call(context, obj[i], i, obj);
+        i++;
+      }
+    } else {
+      for (i in obj) {
+        obj.hasOwnProperty(i) && iterator.call(context, obj[i], i, obj);
+      }
+    }
+  }
+  /**
+   * wrap a method with a deprecation warning and stack trace
+   * @param {Function} method
+   * @param {String} name
+   * @param {String} message
+   * @returns {Function} A new function wrapping the supplied method.
+   */
+
+
+  function deprecate(method, name, message) {
+    var deprecationMessage = 'DEPRECATED METHOD: ' + name + '\n' + message + ' AT \n';
+    return function () {
+      var e = new Error('get-stack-trace');
+      var stack = e && e.stack ? e.stack.replace(/^[^\(]+?[\n$]/gm, '').replace(/^\s+at\s+/gm, '').replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@') : 'Unknown Stack Trace';
+      var log = window.console && (window.console.warn || window.console.log);
+
+      if (log) {
+        log.call(window.console, deprecationMessage, stack);
+      }
+
+      return method.apply(this, arguments);
+    };
+  }
+  /**
+   * extend object.
+   * means that properties in dest will be overwritten by the ones in src.
+   * @param {Object} target
+   * @param {...Object} objects_to_assign
+   * @returns {Object} target
+   */
+
+
+  var assign;
+
+  if (typeof Object.assign !== 'function') {
+    assign = function assign(target) {
+      if (target === undefined || target === null) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var output = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var source = arguments[index];
+
+        if (source !== undefined && source !== null) {
+          for (var nextKey in source) {
+            if (source.hasOwnProperty(nextKey)) {
+              output[nextKey] = source[nextKey];
+            }
+          }
+        }
+      }
+
+      return output;
+    };
+  } else {
+    assign = Object.assign;
+  }
+  /**
+   * extend object.
+   * means that properties in dest will be overwritten by the ones in src.
+   * @param {Object} dest
+   * @param {Object} src
+   * @param {Boolean} [merge=false]
+   * @returns {Object} dest
+   */
+
+
+  var extend = deprecate(function extend(dest, src, merge) {
+    var keys = Object.keys(src);
+    var i = 0;
+
+    while (i < keys.length) {
+      if (!merge || merge && dest[keys[i]] === undefined) {
+        dest[keys[i]] = src[keys[i]];
+      }
+
+      i++;
+    }
+
+    return dest;
+  }, 'extend', 'Use `assign`.');
+  /**
+   * merge the values from src in the dest.
+   * means that properties that exist in dest will not be overwritten by src
+   * @param {Object} dest
+   * @param {Object} src
+   * @returns {Object} dest
+   */
+
+  var merge = deprecate(function merge(dest, src) {
+    return extend(dest, src, true);
+  }, 'merge', 'Use `assign`.');
+  /**
+   * simple class inheritance
+   * @param {Function} child
+   * @param {Function} base
+   * @param {Object} [properties]
+   */
+
+  function inherit(child, base, properties) {
+    var baseP = base.prototype,
+        childP;
+    childP = child.prototype = Object.create(baseP);
+    childP.constructor = child;
+    childP._super = baseP;
+
+    if (properties) {
+      assign(childP, properties);
+    }
+  }
+  /**
+   * simple function bind
+   * @param {Function} fn
+   * @param {Object} context
+   * @returns {Function}
+   */
+
+
+  function bindFn(fn, context) {
+    return function boundFn() {
+      return fn.apply(context, arguments);
+    };
+  }
+  /**
+   * let a boolean value also be a function that must return a boolean
+   * this first item in args will be used as the context
+   * @param {Boolean|Function} val
+   * @param {Array} [args]
+   * @returns {Boolean}
+   */
+
+
+  function boolOrFn(val, args) {
+    if (typeof val == TYPE_FUNCTION) {
+      return val.apply(args ? args[0] || undefined : undefined, args);
+    }
+
+    return val;
+  }
+  /**
+   * use the val2 when val1 is undefined
+   * @param {*} val1
+   * @param {*} val2
+   * @returns {*}
+   */
+
+
+  function ifUndefined(val1, val2) {
+    return val1 === undefined ? val2 : val1;
+  }
+  /**
+   * addEventListener with multiple events at once
+   * @param {EventTarget} target
+   * @param {String} types
+   * @param {Function} handler
+   */
+
+
+  function addEventListeners(target, types, handler) {
+    each(splitStr(types), function (type) {
+      target.addEventListener(type, handler, false);
+    });
+  }
+  /**
+   * removeEventListener with multiple events at once
+   * @param {EventTarget} target
+   * @param {String} types
+   * @param {Function} handler
+   */
+
+
+  function removeEventListeners(target, types, handler) {
+    each(splitStr(types), function (type) {
+      target.removeEventListener(type, handler, false);
+    });
+  }
+  /**
+   * find if a node is in the given parent
+   * @method hasParent
+   * @param {HTMLElement} node
+   * @param {HTMLElement} parent
+   * @return {Boolean} found
+   */
+
+
+  function hasParent(node, parent) {
+    while (node) {
+      if (node == parent) {
+        return true;
+      }
+
+      node = node.parentNode;
+    }
+
+    return false;
+  }
+  /**
+   * small indexOf wrapper
+   * @param {String} str
+   * @param {String} find
+   * @returns {Boolean} found
+   */
+
+
+  function inStr(str, find) {
+    return str.indexOf(find) > -1;
+  }
+  /**
+   * split string on whitespace
+   * @param {String} str
+   * @returns {Array} words
+   */
+
+
+  function splitStr(str) {
+    return str.trim().split(/\s+/g);
+  }
+  /**
+   * find if a array contains the object using indexOf or a simple polyFill
+   * @param {Array} src
+   * @param {String} find
+   * @param {String} [findByKey]
+   * @return {Boolean|Number} false when not found, or the index
+   */
+
+
+  function inArray(src, find, findByKey) {
+    if (src.indexOf && !findByKey) {
+      return src.indexOf(find);
+    } else {
+      var i = 0;
+
+      while (i < src.length) {
+        if (findByKey && src[i][findByKey] == find || !findByKey && src[i] === find) {
+          return i;
+        }
+
+        i++;
+      }
+
+      return -1;
+    }
+  }
+  /**
+   * convert array-like objects to real arrays
+   * @param {Object} obj
+   * @returns {Array}
+   */
+
+
+  function toArray(obj) {
+    return Array.prototype.slice.call(obj, 0);
+  }
+  /**
+   * unique array with objects based on a key (like 'id') or just by the array's value
+   * @param {Array} src [{id:1},{id:2},{id:1}]
+   * @param {String} [key]
+   * @param {Boolean} [sort=False]
+   * @returns {Array} [{id:1},{id:2}]
+   */
+
+
+  function uniqueArray(src, key, sort) {
+    var results = [];
+    var values = [];
+    var i = 0;
+
+    while (i < src.length) {
+      var val = key ? src[i][key] : src[i];
+
+      if (inArray(values, val) < 0) {
+        results.push(src[i]);
+      }
+
+      values[i] = val;
+      i++;
+    }
+
+    if (sort) {
+      if (!key) {
+        results = results.sort();
+      } else {
+        results = results.sort(function sortUniqueArray(a, b) {
+          return a[key] > b[key];
+        });
+      }
+    }
+
+    return results;
+  }
+  /**
+   * get the prefixed property
+   * @param {Object} obj
+   * @param {String} property
+   * @returns {String|Undefined} prefixed
+   */
+
+
+  function prefixed(obj, property) {
+    var prefix, prop;
+    var camelProp = property[0].toUpperCase() + property.slice(1);
+    var i = 0;
+
+    while (i < VENDOR_PREFIXES.length) {
+      prefix = VENDOR_PREFIXES[i];
+      prop = prefix ? prefix + camelProp : property;
+
+      if (prop in obj) {
+        return prop;
+      }
+
+      i++;
+    }
+
+    return undefined;
+  }
+  /**
+   * get a unique id
+   * @returns {number} uniqueId
+   */
+
+
+  var _uniqueId = 1;
+
+  function uniqueId() {
+    return _uniqueId++;
+  }
+  /**
+   * get the window object of an element
+   * @param {HTMLElement} element
+   * @returns {DocumentView|Window}
+   */
+
+
+  function getWindowForElement(element) {
+    var doc = element.ownerDocument || element;
+    return doc.defaultView || doc.parentWindow || window;
+  }
+
+  var MOBILE_REGEX = /mobile|tablet|ip(ad|hone|od)|android/i;
+  var SUPPORT_TOUCH = 'ontouchstart' in window;
+  var SUPPORT_POINTER_EVENTS = prefixed(window, 'PointerEvent') !== undefined;
+  var SUPPORT_ONLY_TOUCH = SUPPORT_TOUCH && MOBILE_REGEX.test(navigator.userAgent);
+  var INPUT_TYPE_TOUCH = 'touch';
+  var INPUT_TYPE_PEN = 'pen';
+  var INPUT_TYPE_MOUSE = 'mouse';
+  var INPUT_TYPE_KINECT = 'kinect';
+  var COMPUTE_INTERVAL = 25;
+  var INPUT_START = 1;
+  var INPUT_MOVE = 2;
+  var INPUT_END = 4;
+  var INPUT_CANCEL = 8;
+  var DIRECTION_NONE = 1;
+  var DIRECTION_LEFT = 2;
+  var DIRECTION_RIGHT = 4;
+  var DIRECTION_UP = 8;
+  var DIRECTION_DOWN = 16;
+  var DIRECTION_HORIZONTAL = DIRECTION_LEFT | DIRECTION_RIGHT;
+  var DIRECTION_VERTICAL = DIRECTION_UP | DIRECTION_DOWN;
+  var DIRECTION_ALL = DIRECTION_HORIZONTAL | DIRECTION_VERTICAL;
+  var PROPS_XY = ['x', 'y'];
+  var PROPS_CLIENT_XY = ['clientX', 'clientY'];
+  /**
+   * create new input type manager
+   * @param {Manager} manager
+   * @param {Function} callback
+   * @returns {Input}
+   * @constructor
+   */
+
+  function Input(manager, callback) {
+    var self = this;
+    this.manager = manager;
+    this.callback = callback;
+    this.element = manager.element;
+    this.target = manager.options.inputTarget; // smaller wrapper around the handler, for the scope and the enabled state of the manager,
+    // so when disabled the input events are completely bypassed.
+
+    this.domHandler = function (ev) {
+      if (boolOrFn(manager.options.enable, [manager])) {
+        self.handler(ev);
+      }
+    };
+
+    this.init();
+  }
+
+  Input.prototype = {
+    /**
+     * should handle the inputEvent data and trigger the callback
+     * @virtual
+     */
+    handler: function () {},
+
+    /**
+     * bind the events
+     */
+    init: function () {
+      this.evEl && addEventListeners(this.element, this.evEl, this.domHandler);
+      this.evTarget && addEventListeners(this.target, this.evTarget, this.domHandler);
+      this.evWin && addEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
+    },
+
+    /**
+     * unbind the events
+     */
+    destroy: function () {
+      this.evEl && removeEventListeners(this.element, this.evEl, this.domHandler);
+      this.evTarget && removeEventListeners(this.target, this.evTarget, this.domHandler);
+      this.evWin && removeEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
+    }
+  };
+  /**
+   * create new input type manager
+   * called by the Manager constructor
+   * @param {Hammer} manager
+   * @returns {Input}
+   */
+
+  function createInputInstance(manager) {
+    var Type;
+    var inputClass = manager.options.inputClass;
+
+    if (inputClass) {
+      Type = inputClass;
+    } else if (SUPPORT_POINTER_EVENTS) {
+      Type = PointerEventInput;
+    } else if (SUPPORT_ONLY_TOUCH) {
+      Type = TouchInput;
+    } else if (!SUPPORT_TOUCH) {
+      Type = MouseInput;
+    } else {
+      Type = TouchMouseInput;
+    }
+
+    return new Type(manager, inputHandler);
+  }
+  /**
+   * handle input events
+   * @param {Manager} manager
+   * @param {String} eventType
+   * @param {Object} input
+   */
+
+
+  function inputHandler(manager, eventType, input) {
+    var pointersLen = input.pointers.length;
+    var changedPointersLen = input.changedPointers.length;
+    var isFirst = eventType & INPUT_START && pointersLen - changedPointersLen === 0;
+    var isFinal = eventType & (INPUT_END | INPUT_CANCEL) && pointersLen - changedPointersLen === 0;
+    input.isFirst = !!isFirst;
+    input.isFinal = !!isFinal;
+
+    if (isFirst) {
+      manager.session = {};
+    } // source event is the normalized value of the domEvents
+    // like 'touchstart, mouseup, pointerdown'
+
+
+    input.eventType = eventType; // compute scale, rotation etc
+
+    computeInputData(manager, input); // emit secret event
+
+    manager.emit('hammer.input', input);
+    manager.recognize(input);
+    manager.session.prevInput = input;
+  }
+  /**
+   * extend the data with some usable properties like scale, rotate, velocity etc
+   * @param {Object} manager
+   * @param {Object} input
+   */
+
+
+  function computeInputData(manager, input) {
+    var session = manager.session;
+    var pointers = input.pointers;
+    var pointersLength = pointers.length; // store the first input to calculate the distance and direction
+
+    if (!session.firstInput) {
+      session.firstInput = simpleCloneInputData(input);
+    } // to compute scale and rotation we need to store the multiple touches
+
+
+    if (pointersLength > 1 && !session.firstMultiple) {
+      session.firstMultiple = simpleCloneInputData(input);
+    } else if (pointersLength === 1) {
+      session.firstMultiple = false;
+    }
+
+    var firstInput = session.firstInput;
+    var firstMultiple = session.firstMultiple;
+    var offsetCenter = firstMultiple ? firstMultiple.center : firstInput.center;
+    var center = input.center = getCenter(pointers);
+    input.timeStamp = now();
+    input.deltaTime = input.timeStamp - firstInput.timeStamp;
+    input.angle = getAngle(offsetCenter, center);
+    input.distance = getDistance(offsetCenter, center);
+    computeDeltaXY(session, input);
+    input.offsetDirection = getDirection(input.deltaX, input.deltaY);
+    var overallVelocity = getVelocity(input.deltaTime, input.deltaX, input.deltaY);
+    input.overallVelocityX = overallVelocity.x;
+    input.overallVelocityY = overallVelocity.y;
+    input.overallVelocity = abs(overallVelocity.x) > abs(overallVelocity.y) ? overallVelocity.x : overallVelocity.y;
+    input.scale = firstMultiple ? getScale(firstMultiple.pointers, pointers) : 1;
+    input.rotation = firstMultiple ? getRotation(firstMultiple.pointers, pointers) : 0;
+    input.maxPointers = !session.prevInput ? input.pointers.length : input.pointers.length > session.prevInput.maxPointers ? input.pointers.length : session.prevInput.maxPointers;
+    computeIntervalInputData(session, input); // find the correct target
+
+    var target = manager.element;
+
+    if (hasParent(input.srcEvent.target, target)) {
+      target = input.srcEvent.target;
+    }
+
+    input.target = target;
+  }
+
+  function computeDeltaXY(session, input) {
+    var center = input.center;
+    var offset = session.offsetDelta || {};
+    var prevDelta = session.prevDelta || {};
+    var prevInput = session.prevInput || {};
+
+    if (input.eventType === INPUT_START || prevInput.eventType === INPUT_END) {
+      prevDelta = session.prevDelta = {
+        x: prevInput.deltaX || 0,
+        y: prevInput.deltaY || 0
+      };
+      offset = session.offsetDelta = {
+        x: center.x,
+        y: center.y
+      };
+    }
+
+    input.deltaX = prevDelta.x + (center.x - offset.x);
+    input.deltaY = prevDelta.y + (center.y - offset.y);
+  }
+  /**
+   * velocity is calculated every x ms
+   * @param {Object} session
+   * @param {Object} input
+   */
+
+
+  function computeIntervalInputData(session, input) {
+    var last = session.lastInterval || input,
+        deltaTime = input.timeStamp - last.timeStamp,
+        velocity,
+        velocityX,
+        velocityY,
+        direction;
+
+    if (input.eventType != INPUT_CANCEL && (deltaTime > COMPUTE_INTERVAL || last.velocity === undefined)) {
+      var deltaX = input.deltaX - last.deltaX;
+      var deltaY = input.deltaY - last.deltaY;
+      var v = getVelocity(deltaTime, deltaX, deltaY);
+      velocityX = v.x;
+      velocityY = v.y;
+      velocity = abs(v.x) > abs(v.y) ? v.x : v.y;
+      direction = getDirection(deltaX, deltaY);
+      session.lastInterval = input;
+    } else {
+      // use latest velocity info if it doesn't overtake a minimum period
+      velocity = last.velocity;
+      velocityX = last.velocityX;
+      velocityY = last.velocityY;
+      direction = last.direction;
+    }
+
+    input.velocity = velocity;
+    input.velocityX = velocityX;
+    input.velocityY = velocityY;
+    input.direction = direction;
+  }
+  /**
+   * create a simple clone from the input used for storage of firstInput and firstMultiple
+   * @param {Object} input
+   * @returns {Object} clonedInputData
+   */
+
+
+  function simpleCloneInputData(input) {
+    // make a simple copy of the pointers because we will get a reference if we don't
+    // we only need clientXY for the calculations
+    var pointers = [];
+    var i = 0;
+
+    while (i < input.pointers.length) {
+      pointers[i] = {
+        clientX: round(input.pointers[i].clientX),
+        clientY: round(input.pointers[i].clientY)
+      };
+      i++;
+    }
+
+    return {
+      timeStamp: now(),
+      pointers: pointers,
+      center: getCenter(pointers),
+      deltaX: input.deltaX,
+      deltaY: input.deltaY
+    };
+  }
+  /**
+   * get the center of all the pointers
+   * @param {Array} pointers
+   * @return {Object} center contains `x` and `y` properties
+   */
+
+
+  function getCenter(pointers) {
+    var pointersLength = pointers.length; // no need to loop when only one touch
+
+    if (pointersLength === 1) {
+      return {
+        x: round(pointers[0].clientX),
+        y: round(pointers[0].clientY)
+      };
+    }
+
+    var x = 0,
+        y = 0,
+        i = 0;
+
+    while (i < pointersLength) {
+      x += pointers[i].clientX;
+      y += pointers[i].clientY;
+      i++;
+    }
+
+    return {
+      x: round(x / pointersLength),
+      y: round(y / pointersLength)
+    };
+  }
+  /**
+   * calculate the velocity between two points. unit is in px per ms.
+   * @param {Number} deltaTime
+   * @param {Number} x
+   * @param {Number} y
+   * @return {Object} velocity `x` and `y`
+   */
+
+
+  function getVelocity(deltaTime, x, y) {
+    return {
+      x: x / deltaTime || 0,
+      y: y / deltaTime || 0
+    };
+  }
+  /**
+   * get the direction between two points
+   * @param {Number} x
+   * @param {Number} y
+   * @return {Number} direction
+   */
+
+
+  function getDirection(x, y) {
+    if (x === y) {
+      return DIRECTION_NONE;
+    }
+
+    if (abs(x) >= abs(y)) {
+      return x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+    }
+
+    return y < 0 ? DIRECTION_UP : DIRECTION_DOWN;
+  }
+  /**
+   * calculate the absolute distance between two points
+   * @param {Object} p1 {x, y}
+   * @param {Object} p2 {x, y}
+   * @param {Array} [props] containing x and y keys
+   * @return {Number} distance
+   */
+
+
+  function getDistance(p1, p2, props) {
+    if (!props) {
+      props = PROPS_XY;
+    }
+
+    var x = p2[props[0]] - p1[props[0]],
+        y = p2[props[1]] - p1[props[1]];
+    return Math.sqrt(x * x + y * y);
+  }
+  /**
+   * calculate the angle between two coordinates
+   * @param {Object} p1
+   * @param {Object} p2
+   * @param {Array} [props] containing x and y keys
+   * @return {Number} angle
+   */
+
+
+  function getAngle(p1, p2, props) {
+    if (!props) {
+      props = PROPS_XY;
+    }
+
+    var x = p2[props[0]] - p1[props[0]],
+        y = p2[props[1]] - p1[props[1]];
+    return Math.atan2(y, x) * 180 / Math.PI;
+  }
+  /**
+   * calculate the rotation degrees between two pointersets
+   * @param {Array} start array of pointers
+   * @param {Array} end array of pointers
+   * @return {Number} rotation
+   */
+
+
+  function getRotation(start, end) {
+    return getAngle(end[1], end[0], PROPS_CLIENT_XY) + getAngle(start[1], start[0], PROPS_CLIENT_XY);
+  }
+  /**
+   * calculate the scale factor between two pointersets
+   * no scale is 1, and goes down to 0 when pinched together, and bigger when pinched out
+   * @param {Array} start array of pointers
+   * @param {Array} end array of pointers
+   * @return {Number} scale
+   */
+
+
+  function getScale(start, end) {
+    return getDistance(end[0], end[1], PROPS_CLIENT_XY) / getDistance(start[0], start[1], PROPS_CLIENT_XY);
+  }
+
+  var MOUSE_INPUT_MAP = {
+    mousedown: INPUT_START,
+    mousemove: INPUT_MOVE,
+    mouseup: INPUT_END
+  };
+  var MOUSE_ELEMENT_EVENTS = 'mousedown';
+  var MOUSE_WINDOW_EVENTS = 'mousemove mouseup';
+  /**
+   * Mouse events input
+   * @constructor
+   * @extends Input
+   */
+
+  function MouseInput() {
+    this.evEl = MOUSE_ELEMENT_EVENTS;
+    this.evWin = MOUSE_WINDOW_EVENTS;
+    this.pressed = false; // mousedown state
+
+    Input.apply(this, arguments);
+  }
+
+  inherit(MouseInput, Input, {
+    /**
+     * handle mouse events
+     * @param {Object} ev
+     */
+    handler: function MEhandler(ev) {
+      var eventType = MOUSE_INPUT_MAP[ev.type]; // on start we want to have the left mouse button down
+
+      if (eventType & INPUT_START && ev.button === 0) {
+        this.pressed = true;
+      }
+
+      if (eventType & INPUT_MOVE && ev.which !== 1) {
+        eventType = INPUT_END;
+      } // mouse must be down
+
+
+      if (!this.pressed) {
+        return;
+      }
+
+      if (eventType & INPUT_END) {
+        this.pressed = false;
+      }
+
+      this.callback(this.manager, eventType, {
+        pointers: [ev],
+        changedPointers: [ev],
+        pointerType: INPUT_TYPE_MOUSE,
+        srcEvent: ev
+      });
+    }
+  });
+  var POINTER_INPUT_MAP = {
+    pointerdown: INPUT_START,
+    pointermove: INPUT_MOVE,
+    pointerup: INPUT_END,
+    pointercancel: INPUT_CANCEL,
+    pointerout: INPUT_CANCEL
+  }; // in IE10 the pointer types is defined as an enum
+
+  var IE10_POINTER_TYPE_ENUM = {
+    2: INPUT_TYPE_TOUCH,
+    3: INPUT_TYPE_PEN,
+    4: INPUT_TYPE_MOUSE,
+    5: INPUT_TYPE_KINECT // see https://twitter.com/jacobrossi/status/480596438489890816
+
+  };
+  var POINTER_ELEMENT_EVENTS = 'pointerdown';
+  var POINTER_WINDOW_EVENTS = 'pointermove pointerup pointercancel'; // IE10 has prefixed support, and case-sensitive
+
+  if (window.MSPointerEvent && !window.PointerEvent) {
+    POINTER_ELEMENT_EVENTS = 'MSPointerDown';
+    POINTER_WINDOW_EVENTS = 'MSPointerMove MSPointerUp MSPointerCancel';
+  }
+  /**
+   * Pointer events input
+   * @constructor
+   * @extends Input
+   */
+
+
+  function PointerEventInput() {
+    this.evEl = POINTER_ELEMENT_EVENTS;
+    this.evWin = POINTER_WINDOW_EVENTS;
+    Input.apply(this, arguments);
+    this.store = this.manager.session.pointerEvents = [];
+  }
+
+  inherit(PointerEventInput, Input, {
+    /**
+     * handle mouse events
+     * @param {Object} ev
+     */
+    handler: function PEhandler(ev) {
+      var store = this.store;
+      var removePointer = false;
+      var eventTypeNormalized = ev.type.toLowerCase().replace('ms', '');
+      var eventType = POINTER_INPUT_MAP[eventTypeNormalized];
+      var pointerType = IE10_POINTER_TYPE_ENUM[ev.pointerType] || ev.pointerType;
+      var isTouch = pointerType == INPUT_TYPE_TOUCH; // get index of the event in the store
+
+      var storeIndex = inArray(store, ev.pointerId, 'pointerId'); // start and mouse must be down
+
+      if (eventType & INPUT_START && (ev.button === 0 || isTouch)) {
+        if (storeIndex < 0) {
+          store.push(ev);
+          storeIndex = store.length - 1;
+        }
+      } else if (eventType & (INPUT_END | INPUT_CANCEL)) {
+        removePointer = true;
+      } // it not found, so the pointer hasn't been down (so it's probably a hover)
+
+
+      if (storeIndex < 0) {
+        return;
+      } // update the event in the store
+
+
+      store[storeIndex] = ev;
+      this.callback(this.manager, eventType, {
+        pointers: store,
+        changedPointers: [ev],
+        pointerType: pointerType,
+        srcEvent: ev
+      });
+
+      if (removePointer) {
+        // remove from the store
+        store.splice(storeIndex, 1);
+      }
+    }
+  });
+  var SINGLE_TOUCH_INPUT_MAP = {
+    touchstart: INPUT_START,
+    touchmove: INPUT_MOVE,
+    touchend: INPUT_END,
+    touchcancel: INPUT_CANCEL
+  };
+  var SINGLE_TOUCH_TARGET_EVENTS = 'touchstart';
+  var SINGLE_TOUCH_WINDOW_EVENTS = 'touchstart touchmove touchend touchcancel';
+  /**
+   * Touch events input
+   * @constructor
+   * @extends Input
+   */
+
+  function SingleTouchInput() {
+    this.evTarget = SINGLE_TOUCH_TARGET_EVENTS;
+    this.evWin = SINGLE_TOUCH_WINDOW_EVENTS;
+    this.started = false;
+    Input.apply(this, arguments);
+  }
+
+  inherit(SingleTouchInput, Input, {
+    handler: function TEhandler(ev) {
+      var type = SINGLE_TOUCH_INPUT_MAP[ev.type]; // should we handle the touch events?
+
+      if (type === INPUT_START) {
+        this.started = true;
+      }
+
+      if (!this.started) {
+        return;
+      }
+
+      var touches = normalizeSingleTouches.call(this, ev, type); // when done, reset the started state
+
+      if (type & (INPUT_END | INPUT_CANCEL) && touches[0].length - touches[1].length === 0) {
+        this.started = false;
+      }
+
+      this.callback(this.manager, type, {
+        pointers: touches[0],
+        changedPointers: touches[1],
+        pointerType: INPUT_TYPE_TOUCH,
+        srcEvent: ev
+      });
+    }
+  });
+  /**
+   * @this {TouchInput}
+   * @param {Object} ev
+   * @param {Number} type flag
+   * @returns {undefined|Array} [all, changed]
+   */
+
+  function normalizeSingleTouches(ev, type) {
+    var all = toArray(ev.touches);
+    var changed = toArray(ev.changedTouches);
+
+    if (type & (INPUT_END | INPUT_CANCEL)) {
+      all = uniqueArray(all.concat(changed), 'identifier', true);
+    }
+
+    return [all, changed];
+  }
+
+  var TOUCH_INPUT_MAP = {
+    touchstart: INPUT_START,
+    touchmove: INPUT_MOVE,
+    touchend: INPUT_END,
+    touchcancel: INPUT_CANCEL
+  };
+  var TOUCH_TARGET_EVENTS = 'touchstart touchmove touchend touchcancel';
+  /**
+   * Multi-user touch events input
+   * @constructor
+   * @extends Input
+   */
+
+  function TouchInput() {
+    this.evTarget = TOUCH_TARGET_EVENTS;
+    this.targetIds = {};
+    Input.apply(this, arguments);
+  }
+
+  inherit(TouchInput, Input, {
+    handler: function MTEhandler(ev) {
+      var type = TOUCH_INPUT_MAP[ev.type];
+      var touches = getTouches.call(this, ev, type);
+
+      if (!touches) {
+        return;
+      }
+
+      this.callback(this.manager, type, {
+        pointers: touches[0],
+        changedPointers: touches[1],
+        pointerType: INPUT_TYPE_TOUCH,
+        srcEvent: ev
+      });
+    }
+  });
+  /**
+   * @this {TouchInput}
+   * @param {Object} ev
+   * @param {Number} type flag
+   * @returns {undefined|Array} [all, changed]
+   */
+
+  function getTouches(ev, type) {
+    var allTouches = toArray(ev.touches);
+    var targetIds = this.targetIds; // when there is only one touch, the process can be simplified
+
+    if (type & (INPUT_START | INPUT_MOVE) && allTouches.length === 1) {
+      targetIds[allTouches[0].identifier] = true;
+      return [allTouches, allTouches];
+    }
+
+    var i,
+        targetTouches,
+        changedTouches = toArray(ev.changedTouches),
+        changedTargetTouches = [],
+        target = this.target; // get target touches from touches
+
+    targetTouches = allTouches.filter(function (touch) {
+      return hasParent(touch.target, target);
+    }); // collect touches
+
+    if (type === INPUT_START) {
+      i = 0;
+
+      while (i < targetTouches.length) {
+        targetIds[targetTouches[i].identifier] = true;
+        i++;
+      }
+    } // filter changed touches to only contain touches that exist in the collected target ids
+
+
+    i = 0;
+
+    while (i < changedTouches.length) {
+      if (targetIds[changedTouches[i].identifier]) {
+        changedTargetTouches.push(changedTouches[i]);
+      } // cleanup removed touches
+
+
+      if (type & (INPUT_END | INPUT_CANCEL)) {
+        delete targetIds[changedTouches[i].identifier];
+      }
+
+      i++;
+    }
+
+    if (!changedTargetTouches.length) {
+      return;
+    }
+
+    return [// merge targetTouches with changedTargetTouches so it contains ALL touches, including 'end' and 'cancel'
+    uniqueArray(targetTouches.concat(changedTargetTouches), 'identifier', true), changedTargetTouches];
+  }
+  /**
+   * Combined touch and mouse input
+   *
+   * Touch has a higher priority then mouse, and while touching no mouse events are allowed.
+   * This because touch devices also emit mouse events while doing a touch.
+   *
+   * @constructor
+   * @extends Input
+   */
+
+
+  var DEDUP_TIMEOUT = 2500;
+  var DEDUP_DISTANCE = 25;
+
+  function TouchMouseInput() {
+    Input.apply(this, arguments);
+    var handler = bindFn(this.handler, this);
+    this.touch = new TouchInput(this.manager, handler);
+    this.mouse = new MouseInput(this.manager, handler);
+    this.primaryTouch = null;
+    this.lastTouches = [];
+  }
+
+  inherit(TouchMouseInput, Input, {
+    /**
+     * handle mouse and touch events
+     * @param {Hammer} manager
+     * @param {String} inputEvent
+     * @param {Object} inputData
+     */
+    handler: function TMEhandler(manager, inputEvent, inputData) {
+      var isTouch = inputData.pointerType == INPUT_TYPE_TOUCH,
+          isMouse = inputData.pointerType == INPUT_TYPE_MOUSE;
+
+      if (isMouse && inputData.sourceCapabilities && inputData.sourceCapabilities.firesTouchEvents) {
+        return;
+      } // when we're in a touch event, record touches to  de-dupe synthetic mouse event
+
+
+      if (isTouch) {
+        recordTouches.call(this, inputEvent, inputData);
+      } else if (isMouse && isSyntheticEvent.call(this, inputData)) {
+        return;
+      }
+
+      this.callback(manager, inputEvent, inputData);
+    },
+
+    /**
+     * remove the event listeners
+     */
+    destroy: function destroy() {
+      this.touch.destroy();
+      this.mouse.destroy();
+    }
+  });
+
+  function recordTouches(eventType, eventData) {
+    if (eventType & INPUT_START) {
+      this.primaryTouch = eventData.changedPointers[0].identifier;
+      setLastTouch.call(this, eventData);
+    } else if (eventType & (INPUT_END | INPUT_CANCEL)) {
+      setLastTouch.call(this, eventData);
+    }
+  }
+
+  function setLastTouch(eventData) {
+    var touch = eventData.changedPointers[0];
+
+    if (touch.identifier === this.primaryTouch) {
+      var lastTouch = {
+        x: touch.clientX,
+        y: touch.clientY
+      };
+      this.lastTouches.push(lastTouch);
+      var lts = this.lastTouches;
+
+      var removeLastTouch = function () {
+        var i = lts.indexOf(lastTouch);
+
+        if (i > -1) {
+          lts.splice(i, 1);
+        }
+      };
+
+      setTimeout(removeLastTouch, DEDUP_TIMEOUT);
+    }
+  }
+
+  function isSyntheticEvent(eventData) {
+    var x = eventData.srcEvent.clientX,
+        y = eventData.srcEvent.clientY;
+
+    for (var i = 0; i < this.lastTouches.length; i++) {
+      var t = this.lastTouches[i];
+      var dx = Math.abs(x - t.x),
+          dy = Math.abs(y - t.y);
+
+      if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  var PREFIXED_TOUCH_ACTION = prefixed(TEST_ELEMENT.style, 'touchAction');
+  var NATIVE_TOUCH_ACTION = PREFIXED_TOUCH_ACTION !== undefined; // magical touchAction value
+
+  var TOUCH_ACTION_COMPUTE = 'compute';
+  var TOUCH_ACTION_AUTO = 'auto';
+  var TOUCH_ACTION_MANIPULATION = 'manipulation'; // not implemented
+
+  var TOUCH_ACTION_NONE = 'none';
+  var TOUCH_ACTION_PAN_X = 'pan-x';
+  var TOUCH_ACTION_PAN_Y = 'pan-y';
+  var TOUCH_ACTION_MAP = getTouchActionProps();
+  /**
+   * Touch Action
+   * sets the touchAction property or uses the js alternative
+   * @param {Manager} manager
+   * @param {String} value
+   * @constructor
+   */
+
+  function TouchAction(manager, value) {
+    this.manager = manager;
+    this.set(value);
+  }
+
+  TouchAction.prototype = {
+    /**
+     * set the touchAction value on the element or enable the polyfill
+     * @param {String} value
+     */
+    set: function (value) {
+      // find out the touch-action by the event handlers
+      if (value == TOUCH_ACTION_COMPUTE) {
+        value = this.compute();
+      }
+
+      if (NATIVE_TOUCH_ACTION && this.manager.element.style && TOUCH_ACTION_MAP[value]) {
+        this.manager.element.style[PREFIXED_TOUCH_ACTION] = value;
+      }
+
+      this.actions = value.toLowerCase().trim();
+    },
+
+    /**
+     * just re-set the touchAction value
+     */
+    update: function () {
+      this.set(this.manager.options.touchAction);
+    },
+
+    /**
+     * compute the value for the touchAction property based on the recognizer's settings
+     * @returns {String} value
+     */
+    compute: function () {
+      var actions = [];
+      each(this.manager.recognizers, function (recognizer) {
+        if (boolOrFn(recognizer.options.enable, [recognizer])) {
+          actions = actions.concat(recognizer.getTouchAction());
+        }
+      });
+      return cleanTouchActions(actions.join(' '));
+    },
+
+    /**
+     * this method is called on each input cycle and provides the preventing of the browser behavior
+     * @param {Object} input
+     */
+    preventDefaults: function (input) {
+      var srcEvent = input.srcEvent;
+      var direction = input.offsetDirection; // if the touch action did prevented once this session
+
+      if (this.manager.session.prevented) {
+        srcEvent.preventDefault();
+        return;
+      }
+
+      var actions = this.actions;
+      var hasNone = inStr(actions, TOUCH_ACTION_NONE) && !TOUCH_ACTION_MAP[TOUCH_ACTION_NONE];
+      var hasPanY = inStr(actions, TOUCH_ACTION_PAN_Y) && !TOUCH_ACTION_MAP[TOUCH_ACTION_PAN_Y];
+      var hasPanX = inStr(actions, TOUCH_ACTION_PAN_X) && !TOUCH_ACTION_MAP[TOUCH_ACTION_PAN_X];
+
+      if (hasNone) {
+        //do not prevent defaults if this is a tap gesture
+        var isTapPointer = input.pointers.length === 1;
+        var isTapMovement = input.distance < 2;
+        var isTapTouchTime = input.deltaTime < 250;
+
+        if (isTapPointer && isTapMovement && isTapTouchTime) {
+          return;
+        }
+      }
+
+      if (hasPanX && hasPanY) {
+        // `pan-x pan-y` means browser handles all scrolling/panning, do not prevent
+        return;
+      }
+
+      if (hasNone || hasPanY && direction & DIRECTION_HORIZONTAL || hasPanX && direction & DIRECTION_VERTICAL) {
+        return this.preventSrc(srcEvent);
+      }
+    },
+
+    /**
+     * call preventDefault to prevent the browser's default behavior (scrolling in most cases)
+     * @param {Object} srcEvent
+     */
+    preventSrc: function (srcEvent) {
+      this.manager.session.prevented = true;
+      srcEvent.preventDefault();
+    }
+  };
+  /**
+   * when the touchActions are collected they are not a valid value, so we need to clean things up. *
+   * @param {String} actions
+   * @returns {*}
+   */
+
+  function cleanTouchActions(actions) {
+    // none
+    if (inStr(actions, TOUCH_ACTION_NONE)) {
+      return TOUCH_ACTION_NONE;
+    }
+
+    var hasPanX = inStr(actions, TOUCH_ACTION_PAN_X);
+    var hasPanY = inStr(actions, TOUCH_ACTION_PAN_Y); // if both pan-x and pan-y are set (different recognizers
+    // for different directions, e.g. horizontal pan but vertical swipe?)
+    // we need none (as otherwise with pan-x pan-y combined none of these
+    // recognizers will work, since the browser would handle all panning
+
+    if (hasPanX && hasPanY) {
+      return TOUCH_ACTION_NONE;
+    } // pan-x OR pan-y
+
+
+    if (hasPanX || hasPanY) {
+      return hasPanX ? TOUCH_ACTION_PAN_X : TOUCH_ACTION_PAN_Y;
+    } // manipulation
+
+
+    if (inStr(actions, TOUCH_ACTION_MANIPULATION)) {
+      return TOUCH_ACTION_MANIPULATION;
+    }
+
+    return TOUCH_ACTION_AUTO;
+  }
+
+  function getTouchActionProps() {
+    if (!NATIVE_TOUCH_ACTION) {
+      return false;
+    }
+
+    var touchMap = {};
+    var cssSupports = window.CSS && window.CSS.supports;
+    ['auto', 'manipulation', 'pan-y', 'pan-x', 'pan-x pan-y', 'none'].forEach(function (val) {
+      // If css.supports is not supported but there is native touch-action assume it supports
+      // all values. This is the case for IE 10 and 11.
+      touchMap[val] = cssSupports ? window.CSS.supports('touch-action', val) : true;
+    });
+    return touchMap;
+  }
+  /**
+   * Recognizer flow explained; *
+   * All recognizers have the initial state of POSSIBLE when a input session starts.
+   * The definition of a input session is from the first input until the last input, with all it's movement in it. *
+   * Example session for mouse-input: mousedown -> mousemove -> mouseup
+   *
+   * On each recognizing cycle (see Manager.recognize) the .recognize() method is executed
+   * which determines with state it should be.
+   *
+   * If the recognizer has the state FAILED, CANCELLED or RECOGNIZED (equals ENDED), it is reset to
+   * POSSIBLE to give it another change on the next cycle.
+   *
+   *               Possible
+   *                  |
+   *            +-----+---------------+
+   *            |                     |
+   *      +-----+-----+               |
+   *      |           |               |
+   *   Failed      Cancelled          |
+   *                          +-------+------+
+   *                          |              |
+   *                      Recognized       Began
+   *                                         |
+   *                                      Changed
+   *                                         |
+   *                                  Ended/Recognized
+   */
+
+
+  var STATE_POSSIBLE = 1;
+  var STATE_BEGAN = 2;
+  var STATE_CHANGED = 4;
+  var STATE_ENDED = 8;
+  var STATE_RECOGNIZED = STATE_ENDED;
+  var STATE_CANCELLED = 16;
+  var STATE_FAILED = 32;
+  /**
+   * Recognizer
+   * Every recognizer needs to extend from this class.
+   * @constructor
+   * @param {Object} options
+   */
+
+  function Recognizer(options) {
+    this.options = assign({}, this.defaults, options || {});
+    this.id = uniqueId();
+    this.manager = null; // default is enable true
+
+    this.options.enable = ifUndefined(this.options.enable, true);
+    this.state = STATE_POSSIBLE;
+    this.simultaneous = {};
+    this.requireFail = [];
+  }
+
+  Recognizer.prototype = {
+    /**
+     * @virtual
+     * @type {Object}
+     */
+    defaults: {},
+
+    /**
+     * set options
+     * @param {Object} options
+     * @return {Recognizer}
+     */
+    set: function (options) {
+      assign(this.options, options); // also update the touchAction, in case something changed about the directions/enabled state
+
+      this.manager && this.manager.touchAction.update();
+      return this;
+    },
+
+    /**
+     * recognize simultaneous with an other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    recognizeWith: function (otherRecognizer) {
+      if (invokeArrayArg(otherRecognizer, 'recognizeWith', this)) {
+        return this;
+      }
+
+      var simultaneous = this.simultaneous;
+      otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+
+      if (!simultaneous[otherRecognizer.id]) {
+        simultaneous[otherRecognizer.id] = otherRecognizer;
+        otherRecognizer.recognizeWith(this);
+      }
+
+      return this;
+    },
+
+    /**
+     * drop the simultaneous link. it doesnt remove the link on the other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    dropRecognizeWith: function (otherRecognizer) {
+      if (invokeArrayArg(otherRecognizer, 'dropRecognizeWith', this)) {
+        return this;
+      }
+
+      otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+      delete this.simultaneous[otherRecognizer.id];
+      return this;
+    },
+
+    /**
+     * recognizer can only run when an other is failing
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    requireFailure: function (otherRecognizer) {
+      if (invokeArrayArg(otherRecognizer, 'requireFailure', this)) {
+        return this;
+      }
+
+      var requireFail = this.requireFail;
+      otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+
+      if (inArray(requireFail, otherRecognizer) === -1) {
+        requireFail.push(otherRecognizer);
+        otherRecognizer.requireFailure(this);
+      }
+
+      return this;
+    },
+
+    /**
+     * drop the requireFailure link. it does not remove the link on the other recognizer.
+     * @param {Recognizer} otherRecognizer
+     * @returns {Recognizer} this
+     */
+    dropRequireFailure: function (otherRecognizer) {
+      if (invokeArrayArg(otherRecognizer, 'dropRequireFailure', this)) {
+        return this;
+      }
+
+      otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
+      var index = inArray(this.requireFail, otherRecognizer);
+
+      if (index > -1) {
+        this.requireFail.splice(index, 1);
+      }
+
+      return this;
+    },
+
+    /**
+     * has require failures boolean
+     * @returns {boolean}
+     */
+    hasRequireFailures: function () {
+      return this.requireFail.length > 0;
+    },
+
+    /**
+     * if the recognizer can recognize simultaneous with an other recognizer
+     * @param {Recognizer} otherRecognizer
+     * @returns {Boolean}
+     */
+    canRecognizeWith: function (otherRecognizer) {
+      return !!this.simultaneous[otherRecognizer.id];
+    },
+
+    /**
+     * You should use `tryEmit` instead of `emit` directly to check
+     * that all the needed recognizers has failed before emitting.
+     * @param {Object} input
+     */
+    emit: function (input) {
+      var self = this;
+      var state = this.state;
+
+      function emit(event) {
+        self.manager.emit(event, input);
+      } // 'panstart' and 'panmove'
+
+
+      if (state < STATE_ENDED) {
+        emit(self.options.event + stateStr(state));
+      }
+
+      emit(self.options.event); // simple 'eventName' events
+
+      if (input.additionalEvent) {
+        // additional event(panleft, panright, pinchin, pinchout...)
+        emit(input.additionalEvent);
+      } // panend and pancancel
+
+
+      if (state >= STATE_ENDED) {
+        emit(self.options.event + stateStr(state));
+      }
+    },
+
+    /**
+     * Check that all the require failure recognizers has failed,
+     * if true, it emits a gesture event,
+     * otherwise, setup the state to FAILED.
+     * @param {Object} input
+     */
+    tryEmit: function (input) {
+      if (this.canEmit()) {
+        return this.emit(input);
+      } // it's failing anyway
+
+
+      this.state = STATE_FAILED;
+    },
+
+    /**
+     * can we emit?
+     * @returns {boolean}
+     */
+    canEmit: function () {
+      var i = 0;
+
+      while (i < this.requireFail.length) {
+        if (!(this.requireFail[i].state & (STATE_FAILED | STATE_POSSIBLE))) {
+          return false;
+        }
+
+        i++;
+      }
+
+      return true;
+    },
+
+    /**
+     * update the recognizer
+     * @param {Object} inputData
+     */
+    recognize: function (inputData) {
+      // make a new copy of the inputData
+      // so we can change the inputData without messing up the other recognizers
+      var inputDataClone = assign({}, inputData); // is is enabled and allow recognizing?
+
+      if (!boolOrFn(this.options.enable, [this, inputDataClone])) {
+        this.reset();
+        this.state = STATE_FAILED;
+        return;
+      } // reset when we've reached the end
+
+
+      if (this.state & (STATE_RECOGNIZED | STATE_CANCELLED | STATE_FAILED)) {
+        this.state = STATE_POSSIBLE;
+      }
+
+      this.state = this.process(inputDataClone); // the recognizer has recognized a gesture
+      // so trigger an event
+
+      if (this.state & (STATE_BEGAN | STATE_CHANGED | STATE_ENDED | STATE_CANCELLED)) {
+        this.tryEmit(inputDataClone);
+      }
+    },
+
+    /**
+     * return the state of the recognizer
+     * the actual recognizing happens in this method
+     * @virtual
+     * @param {Object} inputData
+     * @returns {Const} STATE
+     */
+    process: function (inputData) {},
+    // jshint ignore:line
+
+    /**
+     * return the preferred touch-action
+     * @virtual
+     * @returns {Array}
+     */
+    getTouchAction: function () {},
+
+    /**
+     * called when the gesture isn't allowed to recognize
+     * like when another is being recognized or it is disabled
+     * @virtual
+     */
+    reset: function () {}
+  };
+  /**
+   * get a usable string, used as event postfix
+   * @param {Const} state
+   * @returns {String} state
+   */
+
+  function stateStr(state) {
+    if (state & STATE_CANCELLED) {
+      return 'cancel';
+    } else if (state & STATE_ENDED) {
+      return 'end';
+    } else if (state & STATE_CHANGED) {
+      return 'move';
+    } else if (state & STATE_BEGAN) {
+      return 'start';
+    }
+
+    return '';
+  }
+  /**
+   * direction cons to string
+   * @param {Const} direction
+   * @returns {String}
+   */
+
+
+  function directionStr(direction) {
+    if (direction == DIRECTION_DOWN) {
+      return 'down';
+    } else if (direction == DIRECTION_UP) {
+      return 'up';
+    } else if (direction == DIRECTION_LEFT) {
+      return 'left';
+    } else if (direction == DIRECTION_RIGHT) {
+      return 'right';
+    }
+
+    return '';
+  }
+  /**
+   * get a recognizer by name if it is bound to a manager
+   * @param {Recognizer|String} otherRecognizer
+   * @param {Recognizer} recognizer
+   * @returns {Recognizer}
+   */
+
+
+  function getRecognizerByNameIfManager(otherRecognizer, recognizer) {
+    var manager = recognizer.manager;
+
+    if (manager) {
+      return manager.get(otherRecognizer);
+    }
+
+    return otherRecognizer;
+  }
+  /**
+   * This recognizer is just used as a base for the simple attribute recognizers.
+   * @constructor
+   * @extends Recognizer
+   */
+
+
+  function AttrRecognizer() {
+    Recognizer.apply(this, arguments);
+  }
+
+  inherit(AttrRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof AttrRecognizer
+     */
+    defaults: {
+      /**
+       * @type {Number}
+       * @default 1
+       */
+      pointers: 1
+    },
+
+    /**
+     * Used to check if it the recognizer receives valid input, like input.distance > 10.
+     * @memberof AttrRecognizer
+     * @param {Object} input
+     * @returns {Boolean} recognized
+     */
+    attrTest: function (input) {
+      var optionPointers = this.options.pointers;
+      return optionPointers === 0 || input.pointers.length === optionPointers;
+    },
+
+    /**
+     * Process the input and return the state for the recognizer
+     * @memberof AttrRecognizer
+     * @param {Object} input
+     * @returns {*} State
+     */
+    process: function (input) {
+      var state = this.state;
+      var eventType = input.eventType;
+      var isRecognized = state & (STATE_BEGAN | STATE_CHANGED);
+      var isValid = this.attrTest(input); // on cancel input and we've recognized before, return STATE_CANCELLED
+
+      if (isRecognized && (eventType & INPUT_CANCEL || !isValid)) {
+        return state | STATE_CANCELLED;
+      } else if (isRecognized || isValid) {
+        if (eventType & INPUT_END) {
+          return state | STATE_ENDED;
+        } else if (!(state & STATE_BEGAN)) {
+          return STATE_BEGAN;
+        }
+
+        return state | STATE_CHANGED;
+      }
+
+      return STATE_FAILED;
+    }
+  });
+  /**
+   * Pan
+   * Recognized when the pointer is down and moved in the allowed direction.
+   * @constructor
+   * @extends AttrRecognizer
+   */
+
+  function PanRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+    this.pX = null;
+    this.pY = null;
+  }
+
+  inherit(PanRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof PanRecognizer
+     */
+    defaults: {
+      event: 'pan',
+      threshold: 10,
+      pointers: 1,
+      direction: DIRECTION_ALL
+    },
+    getTouchAction: function () {
+      var direction = this.options.direction;
+      var actions = [];
+
+      if (direction & DIRECTION_HORIZONTAL) {
+        actions.push(TOUCH_ACTION_PAN_Y);
+      }
+
+      if (direction & DIRECTION_VERTICAL) {
+        actions.push(TOUCH_ACTION_PAN_X);
+      }
+
+      return actions;
+    },
+    directionTest: function (input) {
+      var options = this.options;
+      var hasMoved = true;
+      var distance = input.distance;
+      var direction = input.direction;
+      var x = input.deltaX;
+      var y = input.deltaY; // lock to axis?
+
+      if (!(direction & options.direction)) {
+        if (options.direction & DIRECTION_HORIZONTAL) {
+          direction = x === 0 ? DIRECTION_NONE : x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+          hasMoved = x != this.pX;
+          distance = Math.abs(input.deltaX);
+        } else {
+          direction = y === 0 ? DIRECTION_NONE : y < 0 ? DIRECTION_UP : DIRECTION_DOWN;
+          hasMoved = y != this.pY;
+          distance = Math.abs(input.deltaY);
+        }
+      }
+
+      input.direction = direction;
+      return hasMoved && distance > options.threshold && direction & options.direction;
+    },
+    attrTest: function (input) {
+      return AttrRecognizer.prototype.attrTest.call(this, input) && (this.state & STATE_BEGAN || !(this.state & STATE_BEGAN) && this.directionTest(input));
+    },
+    emit: function (input) {
+      this.pX = input.deltaX;
+      this.pY = input.deltaY;
+      var direction = directionStr(input.direction);
+
+      if (direction) {
+        input.additionalEvent = this.options.event + direction;
+      }
+
+      this._super.emit.call(this, input);
+    }
+  });
+  /**
+   * Pinch
+   * Recognized when two or more pointers are moving toward (zoom-in) or away from each other (zoom-out).
+   * @constructor
+   * @extends AttrRecognizer
+   */
+
+  function PinchRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+  }
+
+  inherit(PinchRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof PinchRecognizer
+     */
+    defaults: {
+      event: 'pinch',
+      threshold: 0,
+      pointers: 2
+    },
+    getTouchAction: function () {
+      return [TOUCH_ACTION_NONE];
+    },
+    attrTest: function (input) {
+      return this._super.attrTest.call(this, input) && (Math.abs(input.scale - 1) > this.options.threshold || this.state & STATE_BEGAN);
+    },
+    emit: function (input) {
+      if (input.scale !== 1) {
+        var inOut = input.scale < 1 ? 'in' : 'out';
+        input.additionalEvent = this.options.event + inOut;
+      }
+
+      this._super.emit.call(this, input);
+    }
+  });
+  /**
+   * Press
+   * Recognized when the pointer is down for x ms without any movement.
+   * @constructor
+   * @extends Recognizer
+   */
+
+  function PressRecognizer() {
+    Recognizer.apply(this, arguments);
+    this._timer = null;
+    this._input = null;
+  }
+
+  inherit(PressRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof PressRecognizer
+     */
+    defaults: {
+      event: 'press',
+      pointers: 1,
+      time: 251,
+      // minimal time of the pointer to be pressed
+      threshold: 9 // a minimal movement is ok, but keep it low
+
+    },
+    getTouchAction: function () {
+      return [TOUCH_ACTION_AUTO];
+    },
+    process: function (input) {
+      var options = this.options;
+      var validPointers = input.pointers.length === options.pointers;
+      var validMovement = input.distance < options.threshold;
+      var validTime = input.deltaTime > options.time;
+      this._input = input; // we only allow little movement
+      // and we've reached an end event, so a tap is possible
+
+      if (!validMovement || !validPointers || input.eventType & (INPUT_END | INPUT_CANCEL) && !validTime) {
+        this.reset();
+      } else if (input.eventType & INPUT_START) {
+        this.reset();
+        this._timer = setTimeoutContext(function () {
+          this.state = STATE_RECOGNIZED;
+          this.tryEmit();
+        }, options.time, this);
+      } else if (input.eventType & INPUT_END) {
+        return STATE_RECOGNIZED;
+      }
+
+      return STATE_FAILED;
+    },
+    reset: function () {
+      clearTimeout(this._timer);
+    },
+    emit: function (input) {
+      if (this.state !== STATE_RECOGNIZED) {
+        return;
+      }
+
+      if (input && input.eventType & INPUT_END) {
+        this.manager.emit(this.options.event + 'up', input);
+      } else {
+        this._input.timeStamp = now();
+        this.manager.emit(this.options.event, this._input);
+      }
+    }
+  });
+  /**
+   * Rotate
+   * Recognized when two or more pointer are moving in a circular motion.
+   * @constructor
+   * @extends AttrRecognizer
+   */
+
+  function RotateRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+  }
+
+  inherit(RotateRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof RotateRecognizer
+     */
+    defaults: {
+      event: 'rotate',
+      threshold: 0,
+      pointers: 2
+    },
+    getTouchAction: function () {
+      return [TOUCH_ACTION_NONE];
+    },
+    attrTest: function (input) {
+      return this._super.attrTest.call(this, input) && (Math.abs(input.rotation) > this.options.threshold || this.state & STATE_BEGAN);
+    }
+  });
+  /**
+   * Swipe
+   * Recognized when the pointer is moving fast (velocity), with enough distance in the allowed direction.
+   * @constructor
+   * @extends AttrRecognizer
+   */
+
+  function SwipeRecognizer() {
+    AttrRecognizer.apply(this, arguments);
+  }
+
+  inherit(SwipeRecognizer, AttrRecognizer, {
+    /**
+     * @namespace
+     * @memberof SwipeRecognizer
+     */
+    defaults: {
+      event: 'swipe',
+      threshold: 10,
+      velocity: 0.3,
+      direction: DIRECTION_HORIZONTAL | DIRECTION_VERTICAL,
+      pointers: 1
+    },
+    getTouchAction: function () {
+      return PanRecognizer.prototype.getTouchAction.call(this);
+    },
+    attrTest: function (input) {
+      var direction = this.options.direction;
+      var velocity;
+
+      if (direction & (DIRECTION_HORIZONTAL | DIRECTION_VERTICAL)) {
+        velocity = input.overallVelocity;
+      } else if (direction & DIRECTION_HORIZONTAL) {
+        velocity = input.overallVelocityX;
+      } else if (direction & DIRECTION_VERTICAL) {
+        velocity = input.overallVelocityY;
+      }
+
+      return this._super.attrTest.call(this, input) && direction & input.offsetDirection && input.distance > this.options.threshold && input.maxPointers == this.options.pointers && abs(velocity) > this.options.velocity && input.eventType & INPUT_END;
+    },
+    emit: function (input) {
+      var direction = directionStr(input.offsetDirection);
+
+      if (direction) {
+        this.manager.emit(this.options.event + direction, input);
+      }
+
+      this.manager.emit(this.options.event, input);
+    }
+  });
+  /**
+   * A tap is ecognized when the pointer is doing a small tap/click. Multiple taps are recognized if they occur
+   * between the given interval and position. The delay option can be used to recognize multi-taps without firing
+   * a single tap.
+   *
+   * The eventData from the emitted event contains the property `tapCount`, which contains the amount of
+   * multi-taps being recognized.
+   * @constructor
+   * @extends Recognizer
+   */
+
+  function TapRecognizer() {
+    Recognizer.apply(this, arguments); // previous time and center,
+    // used for tap counting
+
+    this.pTime = false;
+    this.pCenter = false;
+    this._timer = null;
+    this._input = null;
+    this.count = 0;
+  }
+
+  inherit(TapRecognizer, Recognizer, {
+    /**
+     * @namespace
+     * @memberof PinchRecognizer
+     */
+    defaults: {
+      event: 'tap',
+      pointers: 1,
+      taps: 1,
+      interval: 300,
+      // max time between the multi-tap taps
+      time: 250,
+      // max time of the pointer to be down (like finger on the screen)
+      threshold: 9,
+      // a minimal movement is ok, but keep it low
+      posThreshold: 10 // a multi-tap can be a bit off the initial position
+
+    },
+    getTouchAction: function () {
+      return [TOUCH_ACTION_MANIPULATION];
+    },
+    process: function (input) {
+      var options = this.options;
+      var validPointers = input.pointers.length === options.pointers;
+      var validMovement = input.distance < options.threshold;
+      var validTouchTime = input.deltaTime < options.time;
+      this.reset();
+
+      if (input.eventType & INPUT_START && this.count === 0) {
+        return this.failTimeout();
+      } // we only allow little movement
+      // and we've reached an end event, so a tap is possible
+
+
+      if (validMovement && validTouchTime && validPointers) {
+        if (input.eventType != INPUT_END) {
+          return this.failTimeout();
+        }
+
+        var validInterval = this.pTime ? input.timeStamp - this.pTime < options.interval : true;
+        var validMultiTap = !this.pCenter || getDistance(this.pCenter, input.center) < options.posThreshold;
+        this.pTime = input.timeStamp;
+        this.pCenter = input.center;
+
+        if (!validMultiTap || !validInterval) {
+          this.count = 1;
+        } else {
+          this.count += 1;
+        }
+
+        this._input = input; // if tap count matches we have recognized it,
+        // else it has began recognizing...
+
+        var tapCount = this.count % options.taps;
+
+        if (tapCount === 0) {
+          // no failing requirements, immediately trigger the tap event
+          // or wait as long as the multitap interval to trigger
+          if (!this.hasRequireFailures()) {
+            return STATE_RECOGNIZED;
+          } else {
+            this._timer = setTimeoutContext(function () {
+              this.state = STATE_RECOGNIZED;
+              this.tryEmit();
+            }, options.interval, this);
+            return STATE_BEGAN;
+          }
+        }
+      }
+
+      return STATE_FAILED;
+    },
+    failTimeout: function () {
+      this._timer = setTimeoutContext(function () {
+        this.state = STATE_FAILED;
+      }, this.options.interval, this);
+      return STATE_FAILED;
+    },
+    reset: function () {
+      clearTimeout(this._timer);
+    },
+    emit: function () {
+      if (this.state == STATE_RECOGNIZED) {
+        this._input.tapCount = this.count;
+        this.manager.emit(this.options.event, this._input);
+      }
+    }
+  });
+  /**
+   * Simple way to create a manager with a default set of recognizers.
+   * @param {HTMLElement} element
+   * @param {Object} [options]
+   * @constructor
+   */
+
+  function Hammer(element, options) {
+    options = options || {};
+    options.recognizers = ifUndefined(options.recognizers, Hammer.defaults.preset);
+    return new Manager(element, options);
+  }
+  /**
+   * @const {string}
+   */
+
+
+  Hammer.VERSION = '2.0.7';
+  /**
+   * default settings
+   * @namespace
+   */
+
+  Hammer.defaults = {
+    /**
+     * set if DOM events are being triggered.
+     * But this is slower and unused by simple implementations, so disabled by default.
+     * @type {Boolean}
+     * @default false
+     */
+    domEvents: false,
+
+    /**
+     * The value for the touchAction property/fallback.
+     * When set to `compute` it will magically set the correct value based on the added recognizers.
+     * @type {String}
+     * @default compute
+     */
+    touchAction: TOUCH_ACTION_COMPUTE,
+
+    /**
+     * @type {Boolean}
+     * @default true
+     */
+    enable: true,
+
+    /**
+     * EXPERIMENTAL FEATURE -- can be removed/changed
+     * Change the parent input target element.
+     * If Null, then it is being set the to main element.
+     * @type {Null|EventTarget}
+     * @default null
+     */
+    inputTarget: null,
+
+    /**
+     * force an input class
+     * @type {Null|Function}
+     * @default null
+     */
+    inputClass: null,
+
+    /**
+     * Default recognizer setup when calling `Hammer()`
+     * When creating a new Manager these will be skipped.
+     * @type {Array}
+     */
+    preset: [// RecognizerClass, options, [recognizeWith, ...], [requireFailure, ...]
+    [RotateRecognizer, {
+      enable: false
+    }], [PinchRecognizer, {
+      enable: false
+    }, ['rotate']], [SwipeRecognizer, {
+      direction: DIRECTION_HORIZONTAL
+    }], [PanRecognizer, {
+      direction: DIRECTION_HORIZONTAL
+    }, ['swipe']], [TapRecognizer], [TapRecognizer, {
+      event: 'doubletap',
+      taps: 2
+    }, ['tap']], [PressRecognizer]],
+
+    /**
+     * Some CSS properties can be used to improve the working of Hammer.
+     * Add them to this method and they will be set when creating a new Manager.
+     * @namespace
+     */
+    cssProps: {
+      /**
+       * Disables text selection to improve the dragging gesture. Mainly for desktop browsers.
+       * @type {String}
+       * @default 'none'
+       */
+      userSelect: 'none',
+
+      /**
+       * Disable the Windows Phone grippers when pressing an element.
+       * @type {String}
+       * @default 'none'
+       */
+      touchSelect: 'none',
+
+      /**
+       * Disables the default callout shown when you touch and hold a touch target.
+       * On iOS, when you touch and hold a touch target such as a link, Safari displays
+       * a callout containing information about the link. This property allows you to disable that callout.
+       * @type {String}
+       * @default 'none'
+       */
+      touchCallout: 'none',
+
+      /**
+       * Specifies whether zooming is enabled. Used by IE10>
+       * @type {String}
+       * @default 'none'
+       */
+      contentZooming: 'none',
+
+      /**
+       * Specifies that an entire element should be draggable instead of its contents. Mainly for desktop browsers.
+       * @type {String}
+       * @default 'none'
+       */
+      userDrag: 'none',
+
+      /**
+       * Overrides the highlight color shown when the user taps a link or a JavaScript
+       * clickable element in iOS. This property obeys the alpha value, if specified.
+       * @type {String}
+       * @default 'rgba(0,0,0,0)'
+       */
+      tapHighlightColor: 'rgba(0,0,0,0)'
+    }
+  };
+  var STOP = 1;
+  var FORCED_STOP = 2;
+  /**
+   * Manager
+   * @param {HTMLElement} element
+   * @param {Object} [options]
+   * @constructor
+   */
+
+  function Manager(element, options) {
+    this.options = assign({}, Hammer.defaults, options || {});
+    this.options.inputTarget = this.options.inputTarget || element;
+    this.handlers = {};
+    this.session = {};
+    this.recognizers = [];
+    this.oldCssProps = {};
+    this.element = element;
+    this.input = createInputInstance(this);
+    this.touchAction = new TouchAction(this, this.options.touchAction);
+    toggleCssProps(this, true);
+    each(this.options.recognizers, function (item) {
+      var recognizer = this.add(new item[0](item[1]));
+      item[2] && recognizer.recognizeWith(item[2]);
+      item[3] && recognizer.requireFailure(item[3]);
+    }, this);
+  }
+
+  Manager.prototype = {
+    /**
+     * set options
+     * @param {Object} options
+     * @returns {Manager}
+     */
+    set: function (options) {
+      assign(this.options, options); // Options that need a little more setup
+
+      if (options.touchAction) {
+        this.touchAction.update();
+      }
+
+      if (options.inputTarget) {
+        // Clean up existing event listeners and reinitialize
+        this.input.destroy();
+        this.input.target = options.inputTarget;
+        this.input.init();
+      }
+
+      return this;
+    },
+
+    /**
+     * stop recognizing for this session.
+     * This session will be discarded, when a new [input]start event is fired.
+     * When forced, the recognizer cycle is stopped immediately.
+     * @param {Boolean} [force]
+     */
+    stop: function (force) {
+      this.session.stopped = force ? FORCED_STOP : STOP;
+    },
+
+    /**
+     * run the recognizers!
+     * called by the inputHandler function on every movement of the pointers (touches)
+     * it walks through all the recognizers and tries to detect the gesture that is being made
+     * @param {Object} inputData
+     */
+    recognize: function (inputData) {
+      var session = this.session;
+
+      if (session.stopped) {
+        return;
+      } // run the touch-action polyfill
+
+
+      this.touchAction.preventDefaults(inputData);
+      var recognizer;
+      var recognizers = this.recognizers; // this holds the recognizer that is being recognized.
+      // so the recognizer's state needs to be BEGAN, CHANGED, ENDED or RECOGNIZED
+      // if no recognizer is detecting a thing, it is set to `null`
+
+      var curRecognizer = session.curRecognizer; // reset when the last recognizer is recognized
+      // or when we're in a new session
+
+      if (!curRecognizer || curRecognizer && curRecognizer.state & STATE_RECOGNIZED) {
+        curRecognizer = session.curRecognizer = null;
+      }
+
+      var i = 0;
+
+      while (i < recognizers.length) {
+        recognizer = recognizers[i]; // find out if we are allowed try to recognize the input for this one.
+        // 1.   allow if the session is NOT forced stopped (see the .stop() method)
+        // 2.   allow if we still haven't recognized a gesture in this session, or the this recognizer is the one
+        //      that is being recognized.
+        // 3.   allow if the recognizer is allowed to run simultaneous with the current recognized recognizer.
+        //      this can be setup with the `recognizeWith()` method on the recognizer.
+
+        if (session.stopped !== FORCED_STOP && ( // 1
+        !curRecognizer || recognizer == curRecognizer || // 2
+        recognizer.canRecognizeWith(curRecognizer))) {
+          // 3
+          recognizer.recognize(inputData);
+        } else {
+          recognizer.reset();
+        } // if the recognizer has been recognizing the input as a valid gesture, we want to store this one as the
+        // current active recognizer. but only if we don't already have an active recognizer
+
+
+        if (!curRecognizer && recognizer.state & (STATE_BEGAN | STATE_CHANGED | STATE_ENDED)) {
+          curRecognizer = session.curRecognizer = recognizer;
+        }
+
+        i++;
+      }
+    },
+
+    /**
+     * get a recognizer by its event name.
+     * @param {Recognizer|String} recognizer
+     * @returns {Recognizer|Null}
+     */
+    get: function (recognizer) {
+      if (recognizer instanceof Recognizer) {
+        return recognizer;
+      }
+
+      var recognizers = this.recognizers;
+
+      for (var i = 0; i < recognizers.length; i++) {
+        if (recognizers[i].options.event == recognizer) {
+          return recognizers[i];
+        }
+      }
+
+      return null;
+    },
+
+    /**
+     * add a recognizer to the manager
+     * existing recognizers with the same event name will be removed
+     * @param {Recognizer} recognizer
+     * @returns {Recognizer|Manager}
+     */
+    add: function (recognizer) {
+      if (invokeArrayArg(recognizer, 'add', this)) {
+        return this;
+      } // remove existing
+
+
+      var existing = this.get(recognizer.options.event);
+
+      if (existing) {
+        this.remove(existing);
+      }
+
+      this.recognizers.push(recognizer);
+      recognizer.manager = this;
+      this.touchAction.update();
+      return recognizer;
+    },
+
+    /**
+     * remove a recognizer by name or instance
+     * @param {Recognizer|String} recognizer
+     * @returns {Manager}
+     */
+    remove: function (recognizer) {
+      if (invokeArrayArg(recognizer, 'remove', this)) {
+        return this;
+      }
+
+      recognizer = this.get(recognizer); // let's make sure this recognizer exists
+
+      if (recognizer) {
+        var recognizers = this.recognizers;
+        var index = inArray(recognizers, recognizer);
+
+        if (index !== -1) {
+          recognizers.splice(index, 1);
+          this.touchAction.update();
+        }
+      }
+
+      return this;
+    },
+
+    /**
+     * bind event
+     * @param {String} events
+     * @param {Function} handler
+     * @returns {EventEmitter} this
+     */
+    on: function (events, handler) {
+      if (events === undefined) {
+        return;
+      }
+
+      if (handler === undefined) {
+        return;
+      }
+
+      var handlers = this.handlers;
+      each(splitStr(events), function (event) {
+        handlers[event] = handlers[event] || [];
+        handlers[event].push(handler);
+      });
+      return this;
+    },
+
+    /**
+     * unbind event, leave emit blank to remove all handlers
+     * @param {String} events
+     * @param {Function} [handler]
+     * @returns {EventEmitter} this
+     */
+    off: function (events, handler) {
+      if (events === undefined) {
+        return;
+      }
+
+      var handlers = this.handlers;
+      each(splitStr(events), function (event) {
+        if (!handler) {
+          delete handlers[event];
+        } else {
+          handlers[event] && handlers[event].splice(inArray(handlers[event], handler), 1);
+        }
+      });
+      return this;
+    },
+
+    /**
+     * emit event to the listeners
+     * @param {String} event
+     * @param {Object} data
+     */
+    emit: function (event, data) {
+      // we also want to trigger dom events
+      if (this.options.domEvents) {
+        triggerDomEvent(event, data);
+      } // no handlers, so skip it all
+
+
+      var handlers = this.handlers[event] && this.handlers[event].slice();
+
+      if (!handlers || !handlers.length) {
+        return;
+      }
+
+      data.type = event;
+
+      data.preventDefault = function () {
+        data.srcEvent.preventDefault();
+      };
+
+      var i = 0;
+
+      while (i < handlers.length) {
+        handlers[i](data);
+        i++;
+      }
+    },
+
+    /**
+     * destroy the manager and unbinds all events
+     * it doesn't unbind dom events, that is the user own responsibility
+     */
+    destroy: function () {
+      this.element && toggleCssProps(this, false);
+      this.handlers = {};
+      this.session = {};
+      this.input.destroy();
+      this.element = null;
+    }
+  };
+  /**
+   * add/remove the css properties as defined in manager.options.cssProps
+   * @param {Manager} manager
+   * @param {Boolean} add
+   */
+
+  function toggleCssProps(manager, add) {
+    var element = manager.element;
+
+    if (!element.style) {
+      return;
+    }
+
+    var prop;
+    each(manager.options.cssProps, function (value, name) {
+      prop = prefixed(element.style, name);
+
+      if (add) {
+        manager.oldCssProps[prop] = element.style[prop];
+        element.style[prop] = value;
+      } else {
+        element.style[prop] = manager.oldCssProps[prop] || '';
+      }
+    });
+
+    if (!add) {
+      manager.oldCssProps = {};
+    }
+  }
+  /**
+   * trigger dom event
+   * @param {String} event
+   * @param {Object} data
+   */
+
+
+  function triggerDomEvent(event, data) {
+    var gestureEvent = document.createEvent('Event');
+    gestureEvent.initEvent(event, true, true);
+    gestureEvent.gesture = data;
+    data.target.dispatchEvent(gestureEvent);
+  }
+
+  assign(Hammer, {
+    INPUT_START: INPUT_START,
+    INPUT_MOVE: INPUT_MOVE,
+    INPUT_END: INPUT_END,
+    INPUT_CANCEL: INPUT_CANCEL,
+    STATE_POSSIBLE: STATE_POSSIBLE,
+    STATE_BEGAN: STATE_BEGAN,
+    STATE_CHANGED: STATE_CHANGED,
+    STATE_ENDED: STATE_ENDED,
+    STATE_RECOGNIZED: STATE_RECOGNIZED,
+    STATE_CANCELLED: STATE_CANCELLED,
+    STATE_FAILED: STATE_FAILED,
+    DIRECTION_NONE: DIRECTION_NONE,
+    DIRECTION_LEFT: DIRECTION_LEFT,
+    DIRECTION_RIGHT: DIRECTION_RIGHT,
+    DIRECTION_UP: DIRECTION_UP,
+    DIRECTION_DOWN: DIRECTION_DOWN,
+    DIRECTION_HORIZONTAL: DIRECTION_HORIZONTAL,
+    DIRECTION_VERTICAL: DIRECTION_VERTICAL,
+    DIRECTION_ALL: DIRECTION_ALL,
+    Manager: Manager,
+    Input: Input,
+    TouchAction: TouchAction,
+    TouchInput: TouchInput,
+    MouseInput: MouseInput,
+    PointerEventInput: PointerEventInput,
+    TouchMouseInput: TouchMouseInput,
+    SingleTouchInput: SingleTouchInput,
+    Recognizer: Recognizer,
+    AttrRecognizer: AttrRecognizer,
+    Tap: TapRecognizer,
+    Pan: PanRecognizer,
+    Swipe: SwipeRecognizer,
+    Pinch: PinchRecognizer,
+    Rotate: RotateRecognizer,
+    Press: PressRecognizer,
+    on: addEventListeners,
+    off: removeEventListeners,
+    each: each,
+    merge: merge,
+    extend: extend,
+    assign: assign,
+    inherit: inherit,
+    bindFn: bindFn,
+    prefixed: prefixed
+  }); // this prevents errors when Hammer is loaded in the presence of an AMD
+  //  style loader but by script tag, not by the loader.
+
+  var freeGlobal = typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}; // jshint ignore:line
+
+  freeGlobal.Hammer = Hammer;
+
+  if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return Hammer;
+    });
+  } else if (typeof module != 'undefined' && module.exports) {
+    module.exports = Hammer;
+  } else {
+    window[exportName] = Hammer;
+  }
+})(window, document, 'Hammer');
+},{}],"node_modules/react-hammerjs/dist/react-hammerjs.es.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && (typeof call === "object" || typeof call === "function") ? call : self;
+}
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+} // require('hammerjs') when in a browser. This is safe because Hammer is only
+// invoked in componentDidMount, which is not executed on the server.
+
+
+var Hammer = typeof window !== 'undefined' ? require('hammerjs') : undefined;
+var privateProps = {
+  children: true,
+  direction: true,
+  options: true,
+  recognizeWith: true,
+  vertical: true
+};
+/**
+ * Hammer Component
+ * ================
+ */
+
+var handlerToEvent = {
+  action: 'tap press',
+  onDoubleTap: 'doubletap',
+  onPan: 'pan',
+  onPanCancel: 'pancancel',
+  onPanEnd: 'panend',
+  onPanStart: 'panstart',
+  onPinch: 'pinch',
+  onPinchCancel: 'pinchcancel',
+  onPinchEnd: 'pinchend',
+  onPinchIn: 'pinchin',
+  onPinchOut: 'pinchout',
+  onPinchStart: 'pinchstart',
+  onPress: 'press',
+  onPressUp: 'pressup',
+  onRotate: 'rotate',
+  onRotateCancel: 'rotatecancel',
+  onRotateEnd: 'rotateend',
+  onRotateMove: 'rotatemove',
+  onRotateStart: 'rotatestart',
+  onSwipe: 'swipe',
+  onSwipeRight: 'swiperight',
+  onSwipeLeft: 'swipeleft',
+  onSwipeUp: 'swipeup',
+  onSwipeDown: 'swipedown',
+  onTap: 'tap'
+};
+Object.keys(handlerToEvent).forEach(function (i) {
+  privateProps[i] = true;
+});
+
+function updateHammer(hammer, props) {
+  if (props.hasOwnProperty('vertical')) {
+    console.warn('vertical is deprecated, please use `direction` instead');
+  }
+
+  var directionProp = props.direction;
+
+  if (directionProp || props.hasOwnProperty('vertical')) {
+    var direction = directionProp ? directionProp : props.vertical ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL';
+    hammer.get('pan').set({
+      direction: Hammer[direction]
+    });
+    hammer.get('swipe').set({
+      direction: Hammer[direction]
+    });
+  }
+
+  if (props.options) {
+    Object.keys(props.options).forEach(function (option) {
+      if (option === 'recognizers') {
+        Object.keys(props.options.recognizers).forEach(function (gesture) {
+          var recognizer = hammer.get(gesture);
+          recognizer.set(props.options.recognizers[gesture]);
+
+          if (props.options.recognizers[gesture].requireFailure) {
+            recognizer.requireFailure(props.options.recognizers[gesture].requireFailure);
+          }
+        }, this);
+      } else {
+        var key = option;
+        var optionObj = {};
+        optionObj[key] = props.options[option];
+        hammer.set(optionObj);
+      }
+    }, this);
+  }
+
+  if (props.recognizeWith) {
+    Object.keys(props.recognizeWith).forEach(function (gesture) {
+      var recognizer = hammer.get(gesture);
+      recognizer.recognizeWith(props.recognizeWith[gesture]);
+    }, this);
+  }
+
+  Object.keys(props).forEach(function (p) {
+    var e = handlerToEvent[p];
+
+    if (e) {
+      hammer.off(e);
+      hammer.on(e, props[p]);
+    }
+  });
+}
+
+var HammerComponent = function (_React$Component) {
+  _inherits(HammerComponent, _React$Component);
+
+  function HammerComponent() {
+    _classCallCheck(this, HammerComponent);
+
+    return _possibleConstructorReturn(this, (HammerComponent.__proto__ || Object.getPrototypeOf(HammerComponent)).apply(this, arguments));
+  }
+
+  _createClass(HammerComponent, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.hammer = new Hammer(this.domElement);
+      updateHammer(this.hammer, this.props);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      if (this.hammer) {
+        updateHammer(this.hammer, this.props);
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (this.hammer) {
+        this.hammer.stop();
+        this.hammer.destroy();
+      }
+
+      this.hammer = null;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var props = {};
+      Object.keys(this.props).forEach(function (i) {
+        if (!privateProps[i]) {
+          props[i] = this.props[i];
+        }
+      }, this);
+      var self = this;
+
+      props.ref = function (domElement) {
+        if (self.props.ref) {
+          self.props.ref(domElement);
+        }
+
+        self.domElement = domElement;
+      }; // Reuse the child provided
+      // This makes it flexible to use whatever element is wanted (div, ul, etc)
+
+
+      return _react.default.cloneElement(_react.default.Children.only(this.props.children), props);
+    }
+  }]);
+
+  return HammerComponent;
+}(_react.default.Component);
+
+HammerComponent.displayName = 'Hammer';
+HammerComponent.propTypes = {
+  className: _propTypes.default.string
+};
+var _default = HammerComponent;
+exports.default = _default;
+},{"prop-types":"node_modules/prop-types/index.js","react":"node_modules/react/index.js","hammerjs":"node_modules/hammerjs/hammer.js"}],"src/Months.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -75636,6 +78564,10 @@ var AppContext_1 = require("./AppContext");
 
 var react_router_dom_1 = require("react-router-dom");
 
+var react_hammerjs_1 = __importDefault(require("react-hammerjs"));
+
+var hammerjs_1 = __importDefault(require("hammerjs"));
+
 moment_1.default.locale("de");
 
 var Months = function Months() {
@@ -75660,9 +78592,15 @@ var Months = function Months() {
       autoN = _b[0],
       setAutoN = _b[1];
 
-  var _c = react_1.useState(moment_1.default().date(1).hour(0).minute(0)),
+  var currentMonth = moment_1.default().date(1).hour(0).minute(0);
+
+  var _c = react_1.useState(currentMonth.clone()),
       startDate = _c[0],
       setStartDate = _c[1];
+
+  var _d = react_1.useState(false),
+      startDateChanged = _d[0],
+      setStartDateChanged = _d[1];
 
   var months = new Array(n).fill(null).map(function (_, i) {
     var date = startDate.clone().add(i, "month");
@@ -75709,6 +78647,10 @@ var Months = function Months() {
     setStartDate(startDate.clone().subtract(1, "month"));
   };
 
+  var resetStartDate = function resetStartDate() {
+    setStartDate(currentMonth.clone());
+  };
+
   var onDropDownSelect = function onDropDownSelect(value) {
     if (value == -1) {
       setAutoN(true);
@@ -75719,9 +78661,20 @@ var Months = function Months() {
     }
   };
 
+  var onSwipe = function onSwipe(e) {
+    if (e.direction == hammerjs_1.default.DIRECTION_LEFT) {
+      nextMonth();
+    } else if (e.direction == hammerjs_1.default.DIRECTION_RIGHT) {
+      previousMonth();
+    }
+  };
+
   return react_1.default.createElement(react_1.default.Fragment, null, react_1.default.createElement("div", {
     id: "toolbar"
-  }, context.calendarGroups.map(function (g, i) {
+  }, !startDate.isSame(currentMonth, "month") && react_1.default.createElement(semantic_ui_react_1.Button, {
+    size: "mini",
+    onClick: resetStartDate
+  }, "Zur\xFCck zum aktuellen Monat"), context.calendarGroups.map(function (g, i) {
     return react_1.default.createElement(semantic_ui_react_1.Checkbox, {
       key: g.uuid,
       label: g.name,
@@ -75760,9 +78713,12 @@ var Months = function Months() {
     icon: true
   }, react_1.default.createElement(semantic_ui_react_1.Icon, {
     name: "chevron right"
-  }))), react_1.default.createElement("div", {
+  }))), react_1.default.createElement(react_hammerjs_1.default, {
+    onSwipe: onSwipe,
+    direction: "DIRECTION_HORIZONTAL"
+  }, react_1.default.createElement("div", {
     className: "months"
-  }, months), react_1.default.createElement("div", {
+  }, months)), react_1.default.createElement("div", {
     style: {
       textAlign: "right",
       padding: 10
@@ -75773,7 +78729,7 @@ var Months = function Months() {
 };
 
 exports.default = Months;
-},{"react":"node_modules/react/index.js","moment":"node_modules/moment/moment.js","./Month":"src/Month.tsx","semantic-ui-react":"node_modules/semantic-ui-react/dist/es/index.js","./AppContext":"src/AppContext.tsx","react-router-dom":"node_modules/react-router-dom/es/index.js"}],"src/AddCalendarForm.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","moment":"node_modules/moment/moment.js","./Month":"src/Month.tsx","semantic-ui-react":"node_modules/semantic-ui-react/dist/es/index.js","./AppContext":"src/AppContext.tsx","react-router-dom":"node_modules/react-router-dom/es/index.js","react-hammerjs":"node_modules/react-hammerjs/dist/react-hammerjs.es.js","hammerjs":"node_modules/hammerjs/hammer.js"}],"src/AddCalendarForm.tsx":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -86740,7 +89696,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49651" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49377" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

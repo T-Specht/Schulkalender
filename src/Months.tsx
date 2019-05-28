@@ -4,6 +4,9 @@ import Month from "./Month";
 import { Input, Button, Icon, Dropdown, Checkbox } from "semantic-ui-react";
 import { AppContext } from "./AppContext";
 import { Link } from "react-router-dom";
+import Hammer from "react-hammerjs";
+import HammerJS from "hammerjs";
+
 moment.locale("de");
 
 const Months: React.SFC = () => {
@@ -20,13 +23,14 @@ const Months: React.SFC = () => {
 
   const [n, setN] = useState(calcN());
   const [autoN, setAutoN] = useState(true);
+  const currentMonth = moment()
+    .date(1)
+    .hour(0)
+    .minute(0);
 
-  const [startDate, setStartDate] = useState(
-    moment()
-      .date(1)
-      .hour(0)
-      .minute(0)
-  );
+  const [startDate, setStartDate] = useState(currentMonth.clone());
+
+  const [startDateChanged, setStartDateChanged] = useState(false);
 
   const months = new Array(n).fill(null).map((_, i) => {
     let date = startDate.clone().add(i, "month");
@@ -70,6 +74,10 @@ const Months: React.SFC = () => {
     setStartDate(startDate.clone().subtract(1, "month"));
   };
 
+  const resetStartDate = () => {
+    setStartDate(currentMonth.clone());
+  };
+
   const onDropDownSelect = (value: any) => {
     if (value == -1) {
       setAutoN(true);
@@ -80,13 +88,25 @@ const Months: React.SFC = () => {
     }
   };
 
+  const onSwipe = (e: HammerInput) => {
+    if (e.direction == HammerJS.DIRECTION_LEFT) {
+      nextMonth();
+    } else if (e.direction == HammerJS.DIRECTION_RIGHT) {
+      previousMonth();
+    }
+  };
+
   return (
     <React.Fragment>
       {/* 
       <Button icon onClick={context.update} basic>
         <Icon name="refresh" />
       </Button> */}
+
       <div id="toolbar">
+        {!startDate.isSame(currentMonth, "month") && (
+          <Button size="mini" onClick={resetStartDate}>Zurück zum aktuellen Monat</Button>
+        )}
         {context.calendarGroups.map((g, i) => {
           return (
             <Checkbox
@@ -127,7 +147,9 @@ const Months: React.SFC = () => {
         </Button>
       </div>
 
-      <div className="months">{months}</div>
+      <Hammer onSwipe={onSwipe} direction="DIRECTION_HORIZONTAL">
+        <div className="months">{months}</div>
+      </Hammer>
       <div
         style={{
           textAlign: "right",

@@ -32,7 +32,7 @@ interface ContextType {
   setTextLength: (value: number) => any;
 }
 
-interface CalendarGroup {
+export interface CalendarGroup {
   name: string;
   color: string;
   uuid: string;
