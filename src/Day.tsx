@@ -92,7 +92,8 @@ export const Day: React.SFC<IDayProps> = ({ date, cals }) => {
   return (
     <tr
       className={classnames("day", {
-        weekend: date.day() === 6 || date.day() === 0
+        weekend: date.day() === 6 || date.day() === 0,
+        today: date.isSame(moment(), 'date')
       })}
     >
       <td className="date">{date.date()}</td>

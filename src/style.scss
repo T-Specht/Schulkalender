@@ -83,7 +83,20 @@ h2 {
       word-wrap: break-word;
     }
 
+    thead{
+      td{
+        padding-bottom: 5px;
+      }
+    }
+
     tr.day {
+
+
+      &.today{
+        border: 3px solid #F1453D;
+        border-radius: 2px;
+      }
+
       td {
         //padding: 5px 0px;
         border-bottom: 1px solid rgba(black, 0.1);
