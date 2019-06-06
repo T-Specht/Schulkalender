@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { CalendarAPIResult } from "./ical-type";
 import moment from "moment";
+import { DefaultConfig } from "./IDefaultConfig";
 
 export interface ICalendar {
   name: string;
@@ -28,7 +29,7 @@ interface ContextType {
   updateInterval: number;
   setUpdateInterval: (minutes: number) => void;
   setCalendarGroupActiveStatus: (uuid: string, active: boolean) => void;
-  textLength: number,
+  textLength: number;
   setTextLength: (value: number) => any;
 }
 
@@ -83,31 +84,30 @@ const cURL = (c: string, apiKey: string) =>
     .utc()
     .format()}`;
 
-export const AppContextProvider: React.SFC = ({ children }) => {
+export const AppContextProvider: React.SFC<{
+  defaultConfig: DefaultConfig;
+}> = ({ children, defaultConfig }) => {
   const [calendars, setCalendars] = usePersistentState<ICalendar[]>(
-    [],
+    defaultConfig.CALENDARS as any,
     "",
     false,
     calendars => JSON.stringify(calendars.map(c => ({ ...c, data: null })))
   );
   const [apiKey, setApiKey] = usePersistentState(
-    "",
+    defaultConfig.CALENDARS_API,
     "_API",
     false,
     raw => raw,
     raw => raw
   );
   const [updateInterval, setUpdateInterval] = usePersistentState(
-    60,
+    defaultConfig.CALENDARS_UPDATE_INTERVAL,
     "_UPDATE_INTERVAL"
   );
-  const [textLength, setTextLength] = usePersistentState(
-    1000,
-    "_TEXT_LENGTH"
-  );
+  const [textLength, setTextLength] = usePersistentState(1000, "_TEXT_LENGTH");
   const [calendarGroups, setCalendarGroups] = usePersistentState<
     CalendarGroup[]
-  >([], "-GROUPS");
+  >(defaultConfig["CALENDARS-GROUPS"], "-GROUPS");
   const [isLoading, setIsLoading] = useState(false);
 
   function getCalFromURL(url: string) {
