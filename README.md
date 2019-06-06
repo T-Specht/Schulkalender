@@ -1,1 +1,0 @@
-# Kalenderdarstellung für große Bildschirme
